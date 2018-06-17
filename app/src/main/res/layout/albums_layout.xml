@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <TextView
+        android:id="@+id/txtvwAlbum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:padding="10dp"
+        android:layout_marginLeft="5dp"
+        android:text="List of ALBUMS in this device...."
+        />
+
+    <LinearLayout
+        android:id="@+id/lnrlayoutAlbum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3"
+        android:layout_below="@id/txtvwAlbum"
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal"
+        android:layout_margin="5dp"
+        android:background="@drawable/border">
+
+        <Button
+            android:id="@+id/btnPlayAllAlbum"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Play All "
+            style="@style/nikoTextSize"
+            android:padding="5dp"
+            android:background="@drawable/button_corner"
+            android:enabled="true"/>
+
+        <Button
+            android:id="@+id/btnAddAlbum"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Add Album"
+            style="@style/nikoUnEnableText"
+            android:padding="5dp"
+            android:background="@drawable/button_corner"
+            android:enabled="false"/>
+
+        <!--android:textColor="#000055"-->
+
+        <Button
+            android:id="@+id/btnDeleteAlbum"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Del Album"
+            style="@style/nikoUnEnableText"
+            android:padding="5dp"
+            android:background="@drawable/button_corner"
+            android:enabled="false"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lnrlayoutAlbumLV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lnrlayoutAlbum"
+        android:layout_alignParentLeft="true"
+        android:orientation="vertical"
+        android:layout_margin="5dp"
+        android:background="@drawable/border">
+
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_margin="5dp"
+            android:background="#0A0A0A">
+        </ListView>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>
+    <!-- #9FA8DA-->

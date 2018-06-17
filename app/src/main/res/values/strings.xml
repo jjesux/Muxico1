@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Muxico</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="txtvw_song">Playing: </string>
+    <string name="txtvw_song_name">Song Name</string>
+
+    <array name="nk_array">
+        <item>hello</item>
+        <item>kilo</item>
+        <item>foca</item>
+        <item>leon</item>
+        <item>gato</item>
+        <item>wats</item>
+        <item>ucsc</item>
+        <item>SJSU</item>
+        <item>irapuato</item>
+        <item>abasolo</item>
+    </array>
+</resources>

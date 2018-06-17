@@ -1,0 +1,8 @@
+Faltaria agregar la clase elcontrol para quitar lo errores de mainactivity 
+y tambien poner un path que si sean reales. para ver su funciona el sonido.
+
+
+***************************************************************************
+En la mainactivity clase se necesita ver como detener-stop la cancion que se 
+esta tocando si con el update en la music library se delete la cancion que 
+se esta tocando en ese momento.

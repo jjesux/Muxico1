@@ -1,0 +1,255 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@color/primary_dark_material_dark"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/lnrLSongNameId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/border">
+
+        <TextView
+            android:id="@+id/txtvwSongId"
+            android:text="@string/txtvw_song"
+            style="@style/nikoTextSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/txtvwPlayingSongNameId"
+            android:text="@string/txtvw_song_name"
+            style="@style/nikoTextSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/vwTwoId"
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:layout_marginTop="3dp"
+        android:layout_below="@id/lnrLSongNameId"
+        android:background="#0000FF" />
+
+    <LinearLayout
+        android:id="@+id/lnrLCtrlBtnsId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/vwTwoId"
+        android:layout_marginTop="3dp"
+        android:orientation="horizontal"
+        android:background="@drawable/border">
+
+        <Button
+            android:id="@+id/btnStopId"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/new_btn_detener"/>
+
+        <View
+            android:layout_width="1dip"
+            android:layout_height="match_parent"
+            android:background="#0000FF"/>
+
+        <Button
+            android:id="@+id/btnPreviousId"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/new_btn_previa"/>
+
+        <View
+            android:layout_width="1dip"
+            android:layout_height="match_parent"
+            android:background="#0000FF"/>
+
+        <Button
+            android:id="@+id/btnPlayId"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/new_btn_tocar"/>
+
+        <View
+            android:layout_width="1dip"
+            android:layout_height="match_parent"
+            android:background="#0000FF"/>
+
+        <Button
+            android:id="@+id/btnNextId"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/new_btn_next"/>
+
+        <View
+            android:layout_width="1dip"
+            android:layout_height="match_parent"
+            android:background="#0000FF"/>
+
+        <Button
+            android:id="@+id/btnPauseId"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/new_btn_pausa" />
+
+        <View
+            android:layout_width="1dip"
+            android:layout_height="match_parent"
+            android:background="#0000FF"/>
+
+        <Button
+            android:id="@+id/btnLoopId"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/new_btn_loop"
+            android:enabled="false"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/vwCuatroId"
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:layout_marginTop="3dp"
+        android:layout_below="@id/lnrLCtrlBtnsId"
+        android:background="#0000FF" />
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_below="@id/vwCuatroId"
+        android:layout_marginTop="4dp"
+        android:padding="3dp"
+        android:background="@drawable/border"
+        android:choiceMode="singleChoice" >
+    </ListView>
+
+    <View
+        android:id="@+id/vwSieteId"
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:layout_marginTop="3dp"
+        android:layout_below="@android:id/list"
+        android:background="#0000FF" />
+
+    <RelativeLayout
+        android:id="@+id/rltveLTxtTimeId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_below="@id/vwSieteId"
+        android:background="@drawable/border">
+
+        <SeekBar
+            android:id="@+id/seekBId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:padding="8dp"
+            android:progressDrawable="@layout/progreso"
+            android:thumb="@layout/thumb" />
+
+        <TextView
+            android:id="@+id/txtvwSongCurrentTimeId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/seekBId"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="1dp"
+            android:text="min:sec"
+            style="@style/nikoTextSize"/>
+
+        <TextView
+            android:id="@+id/txtvwSongTotalTimeId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/seekBId"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="1dp"
+            android:text="min:sec"
+            style="@style/nikoTextSize"/>
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/vwCincoId"
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:layout_marginTop="4dp"
+        android:layout_below="@id/rltveLTxtTimeId"
+        android:background="#0000FF" />
+
+    <LinearLayout
+        android:id="@+id/lnrLVolId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3"
+        android:layout_below="@id/vwCincoId"
+        android:layout_marginTop="3dp"
+        android:orientation="horizontal"
+        android:background="@drawable/border">
+
+        <Button
+            android:id="@+id/btnRadioId"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_below="@id/lnrLVolId"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/button_mw_corner"
+            android:text="Radio"
+            android:textColor="#00FF00"
+            android:textSize="18dp"/>
+
+
+        <Button
+            android:id="@+id/btnMusLibId"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_below="@id/lnrLVolId"
+            android:layout_toRightOf="@id/btnRadioId"
+            android:layout_marginLeft="0dp"
+            android:text="Library"
+            android:textColor="#00FF00"
+            android:textSize="18dp"
+            android:background="@drawable/button_mw_corner"/>
+
+
+        <Button
+            android:id="@+id/btnSoundEqualizerId"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_below="@id/lnrLVolId"
+            android:layout_alignParentRight="true"
+            android:background ="@drawable/equaloff"
+            android:text="OFF"
+            android:textColor="#00FF00"
+            android:textSize="18dp"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/vwSeisId"
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:layout_below="@id/lnrLVolId"
+        android:layout_marginTop="3dp"
+        android:background="#0000FF" />
+
+</RelativeLayout>
