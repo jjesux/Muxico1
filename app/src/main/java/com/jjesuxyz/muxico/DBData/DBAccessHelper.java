@@ -6,9 +6,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+
+
+
+
 /**
  * The class DBAccessHelper is used to create a local database and its tables. It does not make
- * any other function for this app, so far.
+ * any other function for this app, so far. Final variables defined in this class may be used
+ * in other classes of this app.
  *
  * Created by jjesu on 6/3/2018.
  */
@@ -28,7 +33,7 @@ public class DBAccessHelper extends SQLiteOpenHelper{
 
     private static final String DATABASE_NAME =   "nk.db";
     private static final int DATABASE_VERSION = 1;
-                                        //String to create the database command
+                                        //String to create the database tables command
     public static final String DATABASE_CREATE_FULLLIST =
                         "CREATE TABLE " + TABLE_FULL_LIST + "("
                                         + COLUMN_ID_FL + " integer primary key autoincrement, "
@@ -47,6 +52,7 @@ public class DBAccessHelper extends SQLiteOpenHelper{
 
 
 
+
     /**
      * Class DBAccessHelper(Context) constructor. It is used pass data to the super class of this
      * class. It needs a Context object as a parameter. This parameter is passed to the super
@@ -56,9 +62,8 @@ public class DBAccessHelper extends SQLiteOpenHelper{
      */
     public DBAccessHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-                                        //Debugging output
-        //l("DBAccessHelperConstructo");
     }//End of class constructor
+
 
 
 
@@ -71,6 +76,7 @@ public class DBAccessHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
+                                        //Creating database tables
             db.execSQL(DATABASE_CREATE_FULLLIST);
             db.execSQL(DATABASE_CREATE_PLAYLIST);
             db.execSQL(DATABASE_CREATE_ALBUMLIST);
@@ -80,6 +86,8 @@ public class DBAccessHelper extends SQLiteOpenHelper{
         }
 
     }//End of function
+
+
 
 
     /**
@@ -108,6 +116,7 @@ public class DBAccessHelper extends SQLiteOpenHelper{
     private void l(String str){
         Log.d(t, this.getClass().getSimpleName() + " -> " + str);
     }
+
 
 
 }   //End of class DBAccessHelper

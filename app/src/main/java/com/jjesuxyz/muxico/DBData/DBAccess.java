@@ -10,6 +10,10 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+
+
+
+
 /**
  * The DBAccess class is used to get access and manipulate the local database. It opens it in
  * writable mode and provide functions and methods to insert and extract data from the database
@@ -23,8 +27,10 @@ import java.util.ArrayList;
 public class DBAccess {
                                         //Global class variable declaration
     private Context contexto;
+                                        //Variable to access database
     private SQLiteDatabase database = null;
     private DBAccessHelper dbAccessHelper;
+                                        //final variable used for debugging purposes
     private final String t = "NIKO";
 
 
@@ -55,6 +61,7 @@ public class DBAccess {
 
 
 
+
     /**
      * The open() function is used to get a link to the local database and open it in a
      * writable mode.
@@ -69,6 +76,7 @@ public class DBAccess {
             l("DB is NULL DBAccess->open()");
         }
     }//End of function
+
 
 
 
@@ -88,6 +96,8 @@ public class DBAccess {
         }
 
     }//End of function
+
+
 
 
     /**
@@ -132,6 +142,7 @@ public class DBAccess {
 
 
 
+
     /**
      * The isTableEmpty(String) function is used to check if the dabase tables are empty.
      * It returns true if the databse table being analyzed is NOT empty. It returns false
@@ -140,7 +151,7 @@ public class DBAccess {
      * It returns a boolean value.
      *
      * @param tableName type String
-     * @return boolean
+     * @return type boolean
      */
     public boolean isTableEmpty(String tableName){
 
@@ -164,6 +175,7 @@ public class DBAccess {
 
 
 
+
     /**
      * The insertRecordIntoFullListTable(String, String) function is used to insert a record
      * into the local database table. It creates the record column values and it passes this
@@ -173,7 +185,7 @@ public class DBAccess {
      *
      * @param my_ID type String
      * @param fullSongPath type String
-     * @return long
+     * @return type long
      */
     public long insertRecordIntoFullListTable(String my_ID, String fullSongPath){
         long insertedRowId;
@@ -194,6 +206,7 @@ public class DBAccess {
 
 
 
+
     /**
      * The insertMultipleRecordsIntoFullListTable(ArrayList) function is used to insert multiple
      * entries or records into the database full list table. These records, mp3 files, may be
@@ -207,21 +220,24 @@ public class DBAccess {
      * @param arrayListFilePathsSDCard type ArrayList<String>
      */
     public void insertMultipleRecordsIntoFullListTable(ArrayList<String> arrayListFilePathsSDCard){
+                                        //Variable for debugging purposes
         long insertRowId;
-
+                                        //Setting the column values into a ContentValues obj.
         ContentValues valuesFullList = new ContentValues();
 
         for(int i = 0; i < arrayListFilePathsSDCard.size(); i++){
             valuesFullList.put(DBAccessHelper.COLUMN_FILE_PATH, arrayListFilePathsSDCard.get(i));
+                                        //Inserting values into the database table
             insertRowId = database.insert(DBAccessHelper.TABLE_FULL_LIST, null, valuesFullList);
             valuesFullList.clear();
-
+                                        //Code for debugging purposes
             if(insertRowId < 0){
                 l("Error inserting records: class-DBAccess->insertMultipleRecordsIntoFullListTable()");
             }
         }
 
     }//End of function
+
 
 
 
@@ -234,17 +250,16 @@ public class DBAccess {
      * It returns the id of the record inserted or -1 if there was an error.
      *
      * @param fullSongPath type String
-     * @return long
+     * @return type long
      */
     public long insertRecordIntoPlaylistTable(String fullSongPath){
         long insertedRowId;
-                                        //Setting the column values into a ContentValues obj.
+                                        //Setting the column values into a ContentValues obj
         ContentValues valuesPlaylist = new ContentValues();
         valuesPlaylist.put(DBAccessHelper.COLUMN_PLAYLIST_SONGS, fullSongPath);
                                         //Inserting values into the database table
         insertedRowId = database.insert(DBAccessHelper.TABLE_PLAY_LIST, null, valuesPlaylist);
                                         //Code for debugging purposes
-
         if(insertedRowId < 0){
             l("Error inserting record class-DBAccess->insertRecordIntoPlaylistTable()");
         }
@@ -255,25 +270,35 @@ public class DBAccess {
 
 
 
+
+    /**
+     * insertMultipleRecordsIntoPlayListTable(ArrayList) function is used to insert multiple
+     * records into the local database play list table. All the records to be inserted are received
+     * in the ArrayList that the function receives as a parameter. It loops the ArrayList calling
+     * the Database insert method to insert one record at a time. If there is any error, it let
+     * user know this with a Toast widget (No yet implemented)
+     *
+     * @param arrayListFilePaths type ArrayList
+     */
     public void insertMultipleRecordsIntoPlayListTable(ArrayList<String> arrayListFilePaths){
+                                        //Variable used to check for db insertion error
         long insertRowId;
-
+                                        //ContentValue to hold record to be inserted
         ContentValues valuesFullList = new ContentValues();
-
+                                        //Iterating the ArrayList to insert records into DB table
         for(int i = 0; i < arrayListFilePaths.size(); i++){
+                                        //Setting records into the ContentValue object
             valuesFullList.put(DBAccessHelper.COLUMN_PLAYLIST_SONGS, arrayListFilePaths.get(i));
+                                        //Inserting the record
             insertRowId = database.insert(DBAccessHelper.TABLE_PLAY_LIST, null, valuesFullList);
             valuesFullList.clear();
-
+                                        //Checking for errors
             if(insertRowId < 0){
                 l("Error inserting records: class-DBAccess->insertMultipleRecordsIntoPlayListTable()");
             }
         }
 
     }//End of function
-
-
-
 
 
 
@@ -287,13 +312,15 @@ public class DBAccess {
      * It returns the id of the record inserted or -1 if there was an error.
      *
      * @param albumFullPath type String
-     * @return long
+     * @return type long
      */
     public long insertRecordIntoAlbumListTable(String albumFullPath){
+                                        //Varaible used for debugging purposes
         long insertedRowId;
-
+                                        //ContentValue used to help to make the insertion
         ContentValues valuesAlbumList = new ContentValues();
         valuesAlbumList.put(DBAccessHelper.COLUMN_ALBUMLIST_NAMES, albumFullPath);
+                                        //Making the insertion
         insertedRowId = database.insert(DBAccessHelper.TABLE_ALBUM_LIST, null, valuesAlbumList);
                                         //Debugging block
         if(insertedRowId < 0){
@@ -305,6 +332,7 @@ public class DBAccess {
 
 
 
+
     /**
      * The getAllMP3FilePathsFromDBFullListTable() function is used to get all the records from
      * the local database full list table.
@@ -313,7 +341,7 @@ public class DBAccess {
      * This function returns a cursor holding the data from the database full list table.
      *
      *
-     * @return Cursor
+     * @return type Cursor
      */
     public Cursor getAllMP3FilePathsFromDBFullListTable(){
         String[] columns = {DBAccessHelper.COLUMN_FILE_PATH};
@@ -327,6 +355,7 @@ public class DBAccess {
 
 
 
+
     /**
      * The function getAllMP3FilePathsFromDBPlaylistTable(String) is used to read al the records
      * from the database play list table.
@@ -334,7 +363,7 @@ public class DBAccess {
      * only from the play list table.
      * It returns a cursor containing all the record in the play list table.
      *
-     * @return Cursor
+     * @return type Cursor
      */
     public Cursor getAllMP3FilePathsFromDBPlaylistTable(){
         String[] columns = {DBAccessHelper.COLUMN_PLAYLIST_SONGS};
@@ -347,6 +376,7 @@ public class DBAccess {
 
 
 
+
     /**
      * The function getAllAlbumFilePathsFromDBAlbumListTable() is used to read al the records
      * from the database play list table.
@@ -354,7 +384,7 @@ public class DBAccess {
      * only from the play list table.
      * It returns a cursor containing all the record in the album list table.
      *
-     * @return Cursor
+     * @return type Cursor
      */
     public Cursor getAllAlbumFilePathsFromDBAlbumListTable(){
         String[] columns = {DBAccessHelper.COLUMN_ALBUMLIST_NAMES};
@@ -366,6 +396,7 @@ public class DBAccess {
 
 
 
+
     /**
      * The deleteAllRowsFromFulllistTable() function is used to delete all records in the local
      * database. It receives none parameter since it is used to delete records in the database
@@ -374,7 +405,7 @@ public class DBAccess {
      * rows affected by this request.
      * This function returns the number of deleted records to the function that made the call.
      *
-     * @return delRow type int
+     * @return type int
      */
     public int deleteAllRowsFromFulllistTable(){
         int deletedRows = 0;
@@ -392,13 +423,14 @@ public class DBAccess {
 
 
 
+
     /**
      * The deleteAllRowsFromPlaylistTable() function is used to deleted all the records in the
      * database play list table. It does not need any parameter since it is used to delete
      * records in the play list table.
      * It returns the number of records deleted.
      *
-     * @return int
+     * @return type int
      */
     public int deleteAllRowsFromPlaylistTable(){
         int deletedRows = 0;
@@ -417,6 +449,7 @@ public class DBAccess {
 
 
 
+
     /**
      * The deleteOneRowsFromPlaylistTable(Integer, String) function is used to delete only one
      * record in the database play list table.
@@ -425,7 +458,7 @@ public class DBAccess {
      * It returns the number of records deleted.
      *
      * @param strFilePath type String
-     * @return int
+     * @return type int
      */
     public int deleteOneRowsFromPlaylistTable(String strFilePath){
         String[] whereArgs = new String[]{strFilePath};
@@ -458,6 +491,7 @@ public class DBAccess {
     private void l(String str){
         Log.d(t, this.getClass().getSimpleName() + " -> " + str);
     }
+
 
 
 

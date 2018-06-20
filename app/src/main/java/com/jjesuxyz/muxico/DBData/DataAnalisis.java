@@ -2,7 +2,13 @@ package com.jjesuxyz.muxico.DBData;
 
 import java.util.ArrayList;
 
+
+
+
+
 /**
+ * DataAnalisis class is not being used in this app.
+ *
  * Created by jjesu on 6/3/2018.
  */
 
@@ -23,4 +29,12 @@ public class DataAnalisis {
     public ArrayList<String> getArrayListPlaylist(){
         return arrayListPlaylist;
     }
-}
+
+
+
+}   //End of class DataAnalisis
+
+
+
+/********************************END OF FILE DataAnalisis.java*************************************/
+

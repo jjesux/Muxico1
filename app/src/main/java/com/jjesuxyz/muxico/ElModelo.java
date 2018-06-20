@@ -2,6 +2,7 @@ package com.jjesuxyz.muxico;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Environment;
 import android.util.Log;
 
 import com.jjesuxyz.muxico.DBData.DBAccess;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
  * ELModelo public class is used to get access to the local database to insert records into
  * its tables and also to extract data from its tables. In theory all the user interface
  * activities and user interface fragments must use this class to access the local database.
+ * Not totally done/accomplished yet.
  * This class manages any data manipulation before sending that data to the classes that
  * asked for that data.
  *
@@ -28,10 +30,6 @@ public class ElModelo {
                                         //Arrays to hold data from database tables
     private ArrayList<String> arrListFiles;
     private ArrayList<String> arrayListPLayList;
-                                        //Variable is used to count how many mp3 files from SD Card
-    private Integer counter = 0;
-                                        //Final variable for debugging purposes.
-    private final String t = "NIKO";
                                         //Variable to access local database
     private DBAccess dbAccess;
 
@@ -47,10 +45,12 @@ public class ElModelo {
     public ElModelo(Context context){
 
         arrListFiles =      new ArrayList<>();
-        arrayListPLayList = new ArrayList<>();
+       // arrayListPLayList = new ArrayList<>();
         this.context = context;
        // getAllMP3Files(null, 1);
+
     }   //End of constructor
+
 
 
 
@@ -81,6 +81,43 @@ public class ElModelo {
 
 
 
+
+    public void insertMultipleRecordsIntoFullListTable(ArrayList<String> arrayListFilePath){
+        //Checking that ArrayList has been instantiated before????
+        if (arrayListFilePath != null) {
+            //Getting access to the local database
+            dbAccess = new DBAccess(context);
+            //Inserting multiple records into the database
+            dbAccess.insertMultipleRecordsIntoFullListTable(arrayListFilePath);
+            dbAccess.close();
+            dbAccess = null;
+        }
+        else {
+            //Code just for debugging purposes
+            l("Function insertMultipleRecordsIntoPlayListTable(AL<Str> => NULL) ");
+        }
+
+    }   //End of insertMultipleRecordsIntoPlayListTable() function
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * getArrayListFromPlayListTable() function is used to get all the records from
      * the local database play list table. It returns all those records after extracting them
@@ -107,6 +144,7 @@ public class ElModelo {
         return arrayListPLayList;
 
     }   //End of getArrayListFromPlayListTable() function
+
 
 
 
@@ -142,6 +180,7 @@ public class ElModelo {
 
 
 
+
     /**
      * deleteOneRowOnPlayListTable(String) function is used to deleted one record from the
      * local database play list table. The string parameter it receives is the record that
@@ -169,6 +208,7 @@ public class ElModelo {
 
 
 
+
     /**
      * deleteAllRecordsOnPlayListTable() function is used to delete all records from the database
      * play list table. It returns the number of deleted records.
@@ -192,40 +232,93 @@ public class ElModelo {
 
 
 
+
     /**
-     * getAllMP3Files(File, int) function is used
+     * deleteAllRecordsOnFullListTable() function is used to delete all records from the database
+     * full list table. It returns the number of deleted records.
+     *
+     * @return type int
+     */
+    public int deleteAllRecordsOnFullListTable(){
+                                        //Variable to hold the number of deleted records
+        int delRecordResult;
+                                        //Instantiating DBAccess to actually access the local DB
+        dbAccess = new DBAccess(context);
+                                        //Deleting all records from database full list table
+        delRecordResult = dbAccess.deleteAllRowsFromFulllistTable();
+        if (delRecordResult <= 0){
+            l("Deleted records number with Function deleteAllRowsFromFullListTable()" + delRecordResult);
+        }
+                                        //Returning number of deleted records from full list table
+        return delRecordResult;
+
+    }   //End of deleteAllRecordsOnFullListTable() function
+
+
+
+
+    /**
+     * getArrayListOfFiles() public function is used to send the list of mp3 files to
+     * another class of this project. It returns the variable holding the list of mp3
+     * files. It returns the variable even if it is null;
+     *
+     * @return type ArrayList
+     */
+    public ArrayList<String> getArrayListOfFiles(){
+
+        File file = null;
+        getAllMP3FilesFromSDCard(null, 1);
+
+        return arrListFiles;
+
+    }   //End of getArrayListOfFiles() function
+
+
+
+
+    /**
+     * getAllMP3Files(File, int) function is used to traverse the SD Card directory looking for
+     * MP3 files. When it traverse the directory it pushes all the mp3 file it finds into an
+     * ArrayList of file paths.  All this mp3 files paths are later inserted into the db
+     * full list table.
+     *
      * @param file type File
      * @param level type int
      */
-    private void getAllMP3Files(File file, int level){
+    private void getAllMP3FilesFromSDCard(File file, int level){
                                         //Checking if it is the first function call
         if(file == null && level <= 1){
-            //file = Environment.getExternalStorageDirectory();//.getParentFile();
+            l("BaseDirectorio:  " + Environment.getExternalStorageDirectory().getParentFile());
             file = new File("/storage/3061-6433");//Environment.getExternalStorageDirectory();//.getParentFile();
-
-            getAllMP3Files(file, ++level);
+            getAllMP3FilesFromSDCard(file, ++level);
         }
         else{
-            //Pushing mp3 files into the ArrayList
-            if(file.isFile()) {
-                if (isFileMP3(file.getAbsolutePath())) {
-                    arrListFiles.add(file.getAbsolutePath());
-                    counter++;
-                }
-            }
-            //Moving into another directory, deeper level
-            else if(file.isDirectory() && level <= 5){
-                level = level + 1;
-                File[] arrFiles = file.listFiles();
-                if(arrFiles != null){
-                    for(int i = 0; i < arrFiles.length; i++){
-                        //This recursive function is calling itself
-                        getAllMP3Files(arrFiles[i], level);
+            if (file != null){          //Making sure file is not null
+                                        //Pushing mp3 files into the ArrayList
+                if(file.isFile()) {
+                    if (isFileMP3(file.getAbsolutePath())) {
+                        arrListFiles.add(file.getAbsolutePath());
+                    }
+                }                            //Moving into another directory, deeper level
+                else if(file.isDirectory() && level <= 5){
+                    level = level + 1;
+                    File[] arrFiles = file.listFiles();
+                                            //Traversing directories
+                    if(arrFiles != null){
+                        for(int i = 0; i < arrFiles.length; i++){
+                                            //This recursive function is calling itself
+                            getAllMP3FilesFromSDCard(arrFiles[i], level);
+                        }
                     }
                 }
             }
+            else {
+                l("Error: File object to access SD Card directory is null");
+            }
         }
+
     }   //End of getAllMP3Files() function
+
 
 
 
@@ -249,16 +342,9 @@ public class ElModelo {
 
 
 
-    /**
-     * getArrayListOfFiles() public function is used to send the list of mp3 files to
-     * another class of this project. It returns the variable holding the list of mp3
-     * files. It returns the variable even if it is null;
-     *
-     * @return type ArrayList
-     */
-    public ArrayList<String> getArrayListOfFiles(){
-        return arrListFiles;
-    }   //End of getArrayListOfFiles() function
+
+
+
 
 
 
@@ -282,6 +368,7 @@ public class ElModelo {
 
 
 
+
     /**
      * The l(String) function is used only to debug this class. It uses the Log.d() function to pass
      * the information to the Android Monitor window.
@@ -291,8 +378,9 @@ public class ElModelo {
      * @param str type String
      */
     private void l(String str){
-        Log.d(t, this.getClass().getSimpleName() + " -> " + str);
-    }
+        Log.d("NIKO", this.getClass().getSimpleName() + " -> " + str);
+
+    }   //End of l() function
 
 
 }   //End of Class ElModelo

@@ -6,11 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.app.ActionBar;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -18,7 +16,11 @@ import java.util.ArrayList;
 
 
 /**
- * MusLib class
+ * MusLib class is used to create fragments. This activity will host those fragments. This
+ * class will also create tabs that will be inserted and displayed in the action bar app. This
+ * class will also synchronize swipe action with tabs and fragments. It also sends data to
+ * those fragments. It also sends data back to the parent activity when the user is done
+ * interacting with the fragments it hosts.
  *
  * Created by jjesu on 6/6/2018.
  */
@@ -30,10 +32,8 @@ public class MusLib extends FragmentActivity
                                     PlayListFrgmTab.PlayListInterfaceListener,
                                     AlbumListFragTab.AlbumInterfaceListener{
 
-                                        //Set of varaibles to hold references to fragment activities
-    private PlayListFrgmTab playListFrgmTab;
-    private ListaCompletaFrgmTab listaCompletaFrgmTab;
-    private AlbumListFragTab albumListFragTab;
+
+
                                         //ViewPage to achieve the swipe behavior of the fragments
     private ViewPager viewPager;
                                         //Swipe adapter for the view pager
@@ -49,9 +49,6 @@ public class MusLib extends FragmentActivity
     private ActionBar actionBar;
                                         //Arrays holding MP3 file paths
     private ArrayList<String> arrayLIstFilePaths;
-    private ArrayList<String> arrayListPlayList;
-                                        //boolean to know if there were data change.
-    private boolean blUpdateNeeded = false;
 
 
 
@@ -68,7 +65,6 @@ public class MusLib extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mus_lib_layout);
 
-        arrayListPlayList = null;
                                     //Instantiating ArrayList to hold dabase data
         arrayLIstFilePaths = new ArrayList<>();
         arrayLIstFilePaths.add("uno");
@@ -106,8 +102,11 @@ public class MusLib extends FragmentActivity
 
 
 
+
     /**
-     * onTabSelected(ActionBar.Tab, FragmentTransaction) function is used to
+     * onTabSelected(ActionBar.Tab, FragmentTransaction) function is used to change the fragment
+     * to be display when the user select a different tab. It synchronize tabs and fragments when
+     * the user selects a different fragment.
      *
      * @param tab type ActionBar.Tab
      * @param ft type FragmentTransaction
@@ -115,9 +114,12 @@ public class MusLib extends FragmentActivity
     @Override
     public void onTabSelected(ActionBar.Tab tab, android.app.FragmentTransaction ft) {
         if (viewPager != null) {
+                                        //Changing fragment to be displayed
             viewPager.setCurrentItem(tab.getPosition());
         }
+
     }   //End of onTabSelected() function
+
 
 
 
@@ -134,16 +136,18 @@ public class MusLib extends FragmentActivity
 
 
 
+
     /**
      * onTabReselected(ActionBar.Tab, FragmentTransition) function is not implemented in this
      * project yet.
      *
-     * @param tab
-     * @param ft
+     * @param tab type ActionBar.Tab
+     * @param ft type android.app.FragmentTransaction
      */
     @Override
     public void onTabReselected(ActionBar.Tab tab, android.app.FragmentTransaction ft) {
     }   //End of onTabReselected() function
+
 
 
 
@@ -160,8 +164,12 @@ public class MusLib extends FragmentActivity
 
 
 
+
     /**
-     * onPageSelected(int) function is used to
+     * onPageSelected(int) function is called when the user change/swap/swipe fragments to be
+     * display when the user want to interact/see the next or previous fragment in the list of
+     * fragments. It synchronize tabs and fragments displays with each swipe action done by the
+     * user.
      *
      * @param position type int
      */
@@ -170,6 +178,7 @@ public class MusLib extends FragmentActivity
                                         //Log.d("NIKO", "onPageSelected(position: " + position);
         ActionBar actionB = getActionBar();
         if (actionB != null) {
+                                        //Changing fragment to be displayed
             actionB.setSelectedNavigationItem(position);
         }
 
@@ -178,7 +187,7 @@ public class MusLib extends FragmentActivity
 
 
     /**
-     * onPageScrollStateChanged(int) function is used to
+     * onPageScrollStateChanged(int) function is NOT implemented in this project yet.
      *
      * @param state type int
      */
@@ -189,63 +198,80 @@ public class MusLib extends FragmentActivity
 
 
 
+
     /**
-     * comunicacionInterfaceFunction() function used to
+     * comunicacionInterfaceFunction() function used to receive data/info from the fragments
+     * that this activity created and hosted. This function is called by the fragments when
+     * the user is done interacting with them and click a specific button.
+     * It is also used to pass data to the activity that created this activity and to
+     * destroy itself calling the finish function.
      *
      * @param blUpdate type boolean
      * @param resultCode type int
      */
     @Override
     public void comunicacionInterfaceFunction(boolean blUpdate, int resultCode) {
+                                        //Data to be send to parent activity
         Intent intent = new Intent();
-        intent.putExtra("UPDATE_MUS_LIB", blUpdate);
-
+        intent.putExtra(MainActivity.UPDATE_NEEDED, blUpdate);
+                                        //Sending dat/info to the parent activity
         setResult(MainActivity.RESULT_OK, intent);
+                                        //Self destruction
         finish();
 
     }   //End of comunicacionInterfaceFunction() function
 
 
 
+
     /**
-     * onBackPressed() function is used to
+     * onBackPressed() function is used to pass user data update info to the MainActivity class.
+     * It is called when the back key is pressed and the app is in one of the fragments life
+     * period. Any data update done and completed by the user, it is done also in the database
+     * unless the user did not complete the transaction such as deleting or inserting data into
+     * the database before pressing the back key.
      */
     @Override
     public void onBackPressed(){
-        setResult(MainActivity.RESULT_OK);
+                                        //Creating data to pass to MainActivity when back key pressed
+        Intent intent = new Intent();
+                                        //true asks MainActivity ListView to update itself from DB
+        intent.putExtra(MainActivity.UPDATE_NEEDED, true);
+        setResult(MainActivity.RESULT_OK, intent);
+
         super.onBackPressed();
+
     }   //End of onBackPressed() function
 
 
 
-    /**
-     * onDestroy() function is used to
-     */
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-    }   //End of onDestroy() function
-
-
-
-
 
     /**
-     *
+     * SwipePageLibAdapter adapter class is used to create object of fragments that will be
+     * display in this hosting class, and to pass data to them.  The member getItem function
+     * will create and return those objects that will be synchronized with Tabs and
+     * swipe behavior.
      */
     private class SwipePageLibAdapter extends FragmentPagerAdapter {
 
 
         /**
+         * SwipePageLibAdapter(FragmentManager) constructor is used to pass FragmentManager
+         * reference to its super class. It is required to instantiate an object of this class.
          *
          * @param fm type FragmentManager
          */
         public SwipePageLibAdapter(FragmentManager fm) {
             super(fm);
+
         }   //End of public class constructor
 
 
+
+
         /**
+         * getItem(int) function is used instantiate and return objects of Fragments that will
+         * be displayed in this histing class, and to pass data to them if they need that data.
          *
          * @param position type int
          * @return type Fragment
@@ -254,20 +280,24 @@ public class MusLib extends FragmentActivity
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
+                                        //Data to be sent to fragments
                     Bundle playListArgs = new Bundle();
                     playListArgs.putStringArrayList("LISTA", arrayLIstFilePaths);
+                                        //Creating fragments to be displayed
                     PlayListFrgmTab playListFrag = new PlayListFrgmTab();
                     playListFrag.setArguments(playListArgs);
-                    Log.d("NIKO", "getItem(pos 0)");
+                                        //Returning fragment to be displayed
                     return playListFrag;
 
                 case 1:
+                                        //Creating fragments to be displayed
                     ListaCompletaFrgmTab listaCompletaFrgmTab = new ListaCompletaFrgmTab();
-                    Log.d("NIKO", "getItem(1)");
+                                        //Returning fragment to be displayed
                     return listaCompletaFrgmTab;
                 case 2:
+                                        //Creating fragments to be displayed
                     AlbumListFragTab albumListFragTab = new AlbumListFragTab();
-                    Log.d("NIKO", "getiTEM(2)");
+                                        //Returning fragment to be displayed
                     return albumListFragTab;
                 default:
                     return null;
@@ -276,7 +306,11 @@ public class MusLib extends FragmentActivity
         }   //End of getItem() function
 
 
+
+
         /**
+         * getCount() function is used to get the number of fragments that are going to be display
+         * and inserted in the hosting activity.
          *
          * @return type int
          */
@@ -286,7 +320,39 @@ public class MusLib extends FragmentActivity
 
         }   //End of getCount() function
 
+
     }   //End of SwipePageLibAdapter private inner class
+
+
+
+
+    /**
+     * onDestroy() function is not implemented in this version of the app.
+     */
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+
+    }   //End of onDestroy() funtion
+
+
+
+
+    /**
+     * The l(String) function is used only to debug this class. It uses the Log.d() function to pass
+     * the information to the Android Monitor window.
+     * This information contains the class name and some information about the error or data
+     * about the debugging process.
+     *
+     * @param str type String
+     */
+    private void l(String str){
+        Log.d("NIKO", this.getClass().getSimpleName() + " -> " + str);
+
+    }   //End of l() function
+
+
+
 
 }   //End of Class MusLib
 

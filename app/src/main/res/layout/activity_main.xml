@@ -115,7 +115,7 @@
             android:layout_height="48dp"
             android:layout_marginLeft="8dp"
             android:background="@drawable/new_btn_loop"
-            android:enabled="false"/>
+            android:enabled="true"/>
 
     </LinearLayout>
 

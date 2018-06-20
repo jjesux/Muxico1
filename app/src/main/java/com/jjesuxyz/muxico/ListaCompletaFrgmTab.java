@@ -17,7 +17,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterViewAnimator;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -40,7 +39,6 @@ public class ListaCompletaFrgmTab extends ListFragment
 
                                         //Global class variable declaration
     private View view;
-    private TextView txtvw;
                                         //Variables to holds MP3 file paths
     private ArrayList<String> arrayListFilePathsToPlayListTb;
     private ArrayList<String> arrayListFilePathsSDCard;
@@ -48,7 +46,6 @@ public class ListaCompletaFrgmTab extends ListFragment
 
     private ListView listView;          //It shows file paths to user
     private int positionClicked = -1;
-    private FragmentoListViewAdapter myListviewAdapter;
                                         //Buttons to control/modify data and UI
     private Button btnPlayAllFiles;
     private Button btnAddSongToPlaylist;
@@ -58,7 +55,7 @@ public class ListaCompletaFrgmTab extends ListFragment
                                         //Local interface to communicate with hosting class
     private ListaCompletaFrgmInterfaceListener mCallback;
                                         //Variable set to manage permission to access device storage
-    private final int PERMISION_ACCESS_CODE = 3456;
+    private final int PERMISSION_ACCESS_CODE = 3456;
     private boolean bPermissionsState = false;
                                         //To detect data update
     private boolean blPlayListUpdated = false;
@@ -111,6 +108,8 @@ public class ListaCompletaFrgmTab extends ListFragment
                 ElModelo elModelo = new ElModelo(getContext());
                                         //Inserting one record to the DB play list table
                 elModelo.insertMultipleRecordsIntoPlayListTable(arrayListFilePathsToPlayListTb);
+                                        //Clearing ArrayList for new mp3 file to insert into table
+                arrayListFilePathsToPlayListTb.clear();
 
                 //setAddUpdateBtnNewState();
             }
@@ -128,12 +127,28 @@ public class ListaCompletaFrgmTab extends ListFragment
                                         //Making sure MP3 ArrayList is not null and empty
                     if(arrayListFilePathsSDCard != null){
                         arrayListFilePathsSDCard.clear();
-                        arrayListFilePathsSDCard = null;
+                    }
+                    else {
+                        arrayListFilePathsSDCard = new ArrayList<String>();
                     }
                                         //Instantiating object to access database to get file paths
                     ElModelo elModelo = new ElModelo(getActivity());
-                                        //Getting the ArrayList of MP3 file from DB full list tables
-                    arrayListFilePathsSDCard = elModelo.getArrayListOfFiles();
+                                        //Deleting all data from DB full list table
+                    elModelo.deleteAllRecordsOnFullListTable();
+                                        //Getting data from SD Card and inserting it into ArrayList
+                    arrayListFilePathsSDCard.addAll(elModelo.getArrayListOfFiles());
+                                        //Populating Db full list table with new data from SD Card
+                    elModelo.insertMultipleRecordsIntoFullListTable(arrayListFilePathsSDCard);
+                                        //Clearing ArrayList old data
+                    arrayListFilePathsFulllistTable.clear();
+                                        //Adding MP3's to ArrayList with data from DB full list table
+                    arrayListFilePathsFulllistTable = elModelo.getAllMP3FilePathFromDBFulllistTable("NO SE USA");
+                                        //Updating ListView with new data from DB full list table
+                    muxListViewAdapter.getData().clear();
+                    muxListViewAdapter.getData().addAll(arrayListFilePathsFulllistTable);
+                    muxListViewAdapter.createHashMap();
+                    muxListViewAdapter.notifyDataSetChanged();
+
                     elModelo = null;
                 }
                 else {
@@ -148,6 +163,7 @@ public class ListaCompletaFrgmTab extends ListFragment
         return view;
 
     }   //End of onCreateView() function
+
 
 
 
@@ -178,6 +194,7 @@ public class ListaCompletaFrgmTab extends ListFragment
 
 
 
+
     /**
      * onItemClick(AdapterView, View, int, long) callback function is used to detect when a
      * ListView row is clicked or selected.
@@ -195,6 +212,7 @@ public class ListaCompletaFrgmTab extends ListFragment
         btnAddSongToPlaylist.setEnabled(true);
         btnAddSongToPlaylist.setTextColor(Color.rgb(0, 0, 255));
                                         //Updating data on ArrayList holding all MP3 files
+        l("Posicion:  " + position);
        arrayListFilePathsToPlayListTb.add(arrayListFilePathsFulllistTable.get(position));
                                         //Highlighting last row selected
         if(vwLastRowSelected != null){
@@ -207,6 +225,7 @@ public class ListaCompletaFrgmTab extends ListFragment
         vwLastRowSelected = view;
 
     }   //End of onItemClick() function
+
 
 
 
@@ -231,6 +250,8 @@ public class ListaCompletaFrgmTab extends ListFragment
     }   //End of onAttach() function
 
 
+
+
     /**
      * checkStorageAccessPermission() function is used to check if permission to access storage
      * has been granted already. It asks for that permission if user has not granted that
@@ -251,11 +272,11 @@ public class ListaCompletaFrgmTab extends ListFragment
                 if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
                                         //App does need to info user why storage access is needed
                     Toast.makeText(getActivity(), "Se necesita acceder la memoria para leer los musical file", Toast.LENGTH_LONG).show();
-                    ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISION_ACCESS_CODE);
+                    ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_ACCESS_CODE);
                 }
                 else {
                                         //App does not need to info user why storage access is needed
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISION_ACCESS_CODE);
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_ACCESS_CODE);
                 }
             }
         }
@@ -265,6 +286,7 @@ public class ListaCompletaFrgmTab extends ListFragment
         }
 
     }   //End of checkStorageAccessPermission() function
+
 
 
 
@@ -283,7 +305,7 @@ public class ListaCompletaFrgmTab extends ListFragment
 
         switch (requestCode) {
                                         //Permission granted case
-            case PERMISION_ACCESS_CODE:
+            case PERMISSION_ACCESS_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //l("Permission Granted:  " + grantResults.length + "  -  " + grantResults[0]);
                     bPermissionsState = true;
@@ -297,6 +319,7 @@ public class ListaCompletaFrgmTab extends ListFragment
         }
 
     }   //End of onRequestPermissionsResult () function
+
 
 
 
@@ -319,6 +342,7 @@ public class ListaCompletaFrgmTab extends ListFragment
 
 
 
+
     /**
      * The l(String) function is used only to debug this class. It uses the Log.d() function to pass
      * the information to the Android Monitor window.
@@ -329,7 +353,8 @@ public class ListaCompletaFrgmTab extends ListFragment
      */
     private void l(String str){
         Log.d("NIKO", this.getClass().getSimpleName() + " -> " + str);
-    }
+
+    }   //End of l() function
 
 
 

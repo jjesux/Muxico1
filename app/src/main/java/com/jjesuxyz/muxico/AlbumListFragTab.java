@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterViewAnimator;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,7 +18,8 @@ import android.widget.Toast;
  * Created by jjesu on 6/13/2018.
  */
 
-public class AlbumListFragTab extends ListFragment{
+public class AlbumListFragTab extends ListFragment
+                                    implements AdapterViewAnimator.OnItemClickListener{
 
     private Button btnAlbumPlayAll;
     private Button btnAlbumAddAlbum;
@@ -96,6 +100,15 @@ public class AlbumListFragTab extends ListFragment{
     }
 
 
+
+
+    /**
+     * onAttach(Activity) function is used to initialize a global class variable of type interface
+     * that is used to communicate with the class that is hosting this set of fragments.
+     * It does not return any value.
+     *
+     * @param activity type Activity
+     */
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -106,9 +119,66 @@ public class AlbumListFragTab extends ListFragment{
         catch (ClassCastException ccex) {
             ccex.printStackTrace();
         }
+
+    }   //End of onAttach() function
+
+
+
+
+    /**
+     * onItemClick(AdapterView, View, int, long) callback function is used to detect when a
+     * ListView row is clicked or selected.
+     *
+     * @param parent type AdapterVi
+     * @param view type View
+     * @param position type int
+     * @param id type long
+     */
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+    }   //End of onItemClick() function
+
+
+
+
+    /**
+     * AlbumInterfaceListenerInterfaceListener interface is used to communicate with the class that
+     * is hosting the set of fragments used in this app.  It defines just one function.
+     */
+    public interface AlbumInterfaceListener {
+
+
+        /**
+         * Abstract comunicacionInterfaceFunction(boolean, int) function is meant to achieve a
+         * link to the hosting class.
+         *
+         * @param boolUpdate type boolean
+         * @param resultCode type int
+         */
+        void comunicacionInterfaceFunction(boolean boolUpdate, int resultCode);
+
+    }   //End of ListaCompletaFrgmInterfaceListener interface
+
+
+
+
+    /**
+     * The l(String) function is used only to debug this class. It uses the Log.d() function to pass
+     * the information to the Android Monitor window.
+     * This information contains the class name and some information about the error or data
+     * about the debugging process.
+     *
+     * @param str type String
+     */
+    private void l(String str){
+        Log.d("NIKO", this.getClass().getSimpleName() + " -> " + str);
     }
 
-    public interface AlbumInterfaceListener {
-        void comunicacionInterfaceFunction(boolean boolUpdate, int resultCode);
-    }
-}
+
+}   //End of Class AlbumListFragTab
+
+
+
+/*********************************END OF FILE AlbumListFragTab.java********************************/
+

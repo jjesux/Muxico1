@@ -185,9 +185,18 @@ public class PlayListFrgmTab extends ListFragment
 
 
 
+
+    /**
+     * getArrayListFilePaths() function is NOT implemented in this app version yet.
+     *
+     * @return type ArrayList
+     */
     private ArrayList<String> getArrayListFilePaths() {
         return arrayListFilePaths;
-    }
+
+    }   //End of getArrayListFilePaths() fuinction
+
+
 
 
     /**
@@ -206,6 +215,7 @@ public class PlayListFrgmTab extends ListFragment
         vwLastRowSelected = null;
 
     }   //End of setAddDeleteBtnNewState() function
+
 
 
 
@@ -244,6 +254,7 @@ public class PlayListFrgmTab extends ListFragment
 
 
 
+
     /**
      * onItemClick(AdapterView, View, int, long) callback function is used to detect when a
      * ListView row is clicked or selected.
@@ -274,6 +285,7 @@ public class PlayListFrgmTab extends ListFragment
 
 
 
+
     /**
      * PlayListInterfaceListener interface is used to communicate with the class that is hosting
      * the set of fragments used in this app.  It defines just one function.
@@ -290,6 +302,7 @@ public class PlayListFrgmTab extends ListFragment
         void comunicacionInterfaceFunction(boolean boolUpdate, int resultCode);
 
     }   //End of PlayListInterfaceListener interface
+
 
 
 
@@ -310,18 +323,9 @@ public class PlayListFrgmTab extends ListFragment
         catch (ClassCastException ccex) {
             ccex.printStackTrace();
         }
+
     }   //End of onAttach() function
 
-
-
-    /**
-     * onDestroyView() function is called by the system before the UI is destroyed. It is not
-     * implemented in this app.
-     */
-    @Override
-    public void onDestroyView(){
-        super.onDestroyView();
-    }   //End of onDestroyView() function
 
 
 
@@ -335,6 +339,7 @@ public class PlayListFrgmTab extends ListFragment
      */
     private void l(String str){
         Log.d("NIKO", this.getClass().getSimpleName() + " -> " + str);
+
     }   //End of l() function
 
 

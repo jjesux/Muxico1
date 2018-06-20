@@ -1,8 +1,34 @@
-Faltaria agregar la clase elcontrol para quitar lo errores de mainactivity 
-y tambien poner un path que si sean reales. para ver su funciona el sonido.
-
 
 ***************************************************************************
 En la mainactivity clase se necesita ver como detener-stop la cancion que se 
 esta tocando si con el update en la music library se delete la cancion que 
 se esta tocando en ese momento.
+
+
+***************************************************************************
+
+revisar ElControl clase para cambiar el acceso a la db atravez de la DBAccess
+clase y hacerlo solamente a traves de la clase ElModelo.
+
+
+***************************************************************************
+ListaCompletaFrgmTab checar si el muxlistviewadapter se puede hacer local para 
+la funcion donde se usa.
+
+***************************************************************************
+
+
+EN ESTA FECHA DE 6/18/2018 LA APP MUXICO TRABAJA SIN CRASHEARSE, AUNQUE TODAS LA PRUEBAS
+SE HAN HECHO EN EL EMULADOR.
+FALTA ACCEDER LA SD CARD GET TODOS MP3 FILES Y INSERTARLOS EN LA DATABASE.
+CREO QUE TODO ESO SE TIENE QUE HACER EN EL BUTTON DE UPDATE DEL FRAGMETO 
+LISTACOMPLETAFRGMTAB CLASS
+
+******************************************************************************
+
+falta ver como parar la cancion que se esta tocando cuando se borra desde la library
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+cuando la app esta en la libreria y se hace click al button back se creasea/
+

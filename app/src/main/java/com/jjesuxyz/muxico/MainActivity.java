@@ -5,6 +5,7 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -79,24 +80,18 @@ public class MainActivity extends ListActivity {
                                         //State of the pause button
     private boolean bBtnPauseState = false;
                                         //Variable set to manage permission to access device storage
-    final int REQUEST_CODE = 300;
     private final int PERMISION_ACCESS_CODE = 3456;
     private boolean bPermissionsState = false;
-    private int REQ_CODE_SDCARD_DIR = 301;
 
     private final int RESULT_FROM_ACTIVITY = 20;
 
     public static final String UPDATE_NEEDED = "UPDATE_MUS_LIB";
                                         //Variable to get data from DB play list table
     ElModelo elModelo;
-    //THIS VARIABLE MAY BE DELETED LATER
-    DBAccess dbAccess;
 
 
-    ///////////////////////////////////////////////////////////////////////////////////
-    //todavia no se implementa correctamente a lo mejor ni siquiera se necesita
-    private final int RESULTADO_UNO = 1;
-    ///////////////////////////////////////////////////////////////////////////////////
+
+
 
 
     /**
@@ -114,7 +109,6 @@ public class MainActivity extends ListActivity {
                                         //Checking and asking permission to access storage
         checkStorageAccessPermission();
 
-        funcionDBInsert();
                                         //TextView variables initialization
         txtvwPlayingSongName = findViewById(R.id.txtvwPlayingSongNameId);
         txtvwSongCurrentTime = findViewById(R.id.txtvwSongCurrentTimeId);
@@ -171,44 +165,18 @@ public class MainActivity extends ListActivity {
                 }
 
             }
-                                        //Function part of Listener, not implemented
+                                        //Function part of Listener, not implemented in this app
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
-                                        //Function part of Listener, not implemented
+                                        //Function part of Listener, not implemented in this app
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
 
         });                             //End of SeekBar implementation
 
-
     }   //End of onCreate() function
 
 
-
-    private void funcionDBInsert(){
-        dbAccess = new DBAccess(getApplicationContext());
-        /*dbAccess.insertRecordIntoPlaylistTable("/storage/emulated/0/Quelite.mp3");
-        dbAccess.insertRecordIntoPlaylistTable("/storage/emulated/0/Music/Sauce.mp3");
-        dbAccess.insertRecordIntoPlaylistTable("/storage/emulated/0/Music/ComoUnPerro.mp3");
-        dbAccess.insertRecordIntoPlaylistTable("/storage/emulated/0/Music/NikoMus/caray.mp3");
-        dbAccess.insertRecordIntoPlaylistTable("/storage/emulated/0/Music/NikoMus/mariaJose.mp3");
-        dbAccess.insertRecordIntoPlaylistTable("/storage/emulated/0/Quelite.mp3");
-        dbAccess.insertRecordIntoPlaylistTable("/storage/emulated/0/Music/Sauce.mp3");
-        dbAccess.insertRecordIntoPlaylistTable("/storage/emulated/0/Music/ComoUnPerro.mp3");
-        dbAccess.insertRecordIntoPlaylistTable("/storage/emulated/0/Music/NikoMus/caray.mp3");
-        dbAccess.insertRecordIntoPlaylistTable("/storage/emulated/0/Music/NikoMus/mariaJose.mp3");*/
-
-        dbAccess.insertRecordIntoFullListTable("NOSEUSA", "/storage/emulated/0/Quelite.mp3");
-        dbAccess.insertRecordIntoFullListTable("NOSEUSA", "/storage/emulated/0/Music/Sauce.mp3");
-        dbAccess.insertRecordIntoFullListTable("NOSEUSA", "/storage/emulated/0/Music/ComoUnPerro.mp3");
-        dbAccess.insertRecordIntoFullListTable("NOSEUSA", "/storage/emulated/0/Music/NikoMus/caray.mp3");
-        dbAccess.insertRecordIntoFullListTable("NOSEUSA", "/storage/emulated/0/Music/NikoMus/mariaJose.mp3");
-        dbAccess.insertRecordIntoFullListTable("NOSEUSA", "/storage/emulated/0/Quelite.mp3");
-        dbAccess.insertRecordIntoFullListTable("NOSEUSA", "/storage/emulated/0/Music/Sauce.mp3");
-        dbAccess.insertRecordIntoFullListTable("NOSEUSA", "/storage/emulated/0/Music/ComoUnPerro.mp3");
-        dbAccess.insertRecordIntoFullListTable("NOSEUSA", "/storage/emulated/0/Music/NikoMus/caray.mp3");
-        dbAccess.insertRecordIntoFullListTable("NOSEUSA", "/storage/emulated/0/Music/NikoMus/mariaJose.mp3");
-    }
 
 
     /**
@@ -218,6 +186,7 @@ public class MainActivity extends ListActivity {
      */
     public ListView getMyListView(){
         return lView;
+
     }   //End of getMyListView() function
 
 
@@ -242,6 +211,7 @@ public class MainActivity extends ListActivity {
 
 
 
+
     /**
      * setBtnSoundEqualizerState() function is used to change the text on the equalizer
      * button. This text is on or off depending if the equalizer is on or off.
@@ -250,7 +220,9 @@ public class MainActivity extends ListActivity {
      */
     public void setBtnSoundEqualizerState(String stateONOFF){
         btnSoundEqualizer.setText(stateONOFF);
+
     }   //End of setBtnSoundEqualizerState() function
+
 
 
 
@@ -264,7 +236,9 @@ public class MainActivity extends ListActivity {
         File file = new File(actualPlayingSongName);
                                         //Displaying song name being played
         txtvwPlayingSongName.setText(file.getName());
+
     }   //End of setTxtvwPlayingSongName() function
+
 
 
 
@@ -276,7 +250,9 @@ public class MainActivity extends ListActivity {
      */
     public void setTxtvwSongTotalTime(String strTiempoTotal){
         txtvwSongTotalTime.setText(strTiempoTotal);
+
     }   //End of setTxtvwSongTotalTime() function
+
 
 
 
@@ -288,7 +264,9 @@ public class MainActivity extends ListActivity {
      */
     public void setTxtvwSongCurrentTime(String strCurrentTime){
         txtvwSongCurrentTime.setText(strCurrentTime);
+
     }   //End of setTxtvwSongCurrentTime() function
+
 
 
 
@@ -300,7 +278,9 @@ public class MainActivity extends ListActivity {
      */
     public void setSeekBarProgress(int progreso){
         seekBar.setProgress(progreso);
+
     }   //End of setSeekBarProgress() function
+
 
 
 
@@ -312,7 +292,9 @@ public class MainActivity extends ListActivity {
      */
     public void setSeekBarMax(int songTiempoTotal){
         seekBar.setMax(songTiempoTotal);
+
     }   //End of setSeekBarMax() function
+
 
 
 
@@ -333,6 +315,7 @@ public class MainActivity extends ListActivity {
         btnSoundEqualizer = findViewById(R.id.btnSoundEqualizerId);
 
     }   //End of setButtons() function
+
 
 
 
@@ -381,6 +364,7 @@ public class MainActivity extends ListActivity {
                 case BTN_PLAY_ID:
                                         //Checking music playing list is not empty
                     if (arrListPlaylistFromDB.size() >= 1) {
+                        elControl.setiSongPlayingNumber(0);
                         elControl.playSong("BOTON");
                         txtvwPlayingSongName.setText(elControl.getCurrentPlayingSongName());
                         txtvwSongCurrentTime.setText("0");
@@ -419,7 +403,8 @@ public class MainActivity extends ListActivity {
                     break;
                                         //Not implemented yet
                 case BTN_LOOP_ID:
-                    l("LOOPING...");
+                    elControl.setBtnLoopState(true);
+                    ;
                     break;
                                         //Start activity to manage play list library list
                 case BTN_MUS_LIB_ID:
@@ -430,7 +415,8 @@ public class MainActivity extends ListActivity {
                 case BTN_SOUNDEQUALIZER_ID:
                     if(elControl.getMdPlayer() == null && !elControl.isMdPlayerPlaying()){
                                         //Asking user to start playing a song first
-                        l("Start playing song first");
+                        Toast.makeText(getApplicationContext(), "Start playing a song first.",
+                                                                        Toast.LENGTH_SHORT).show();
                     }
                     else {
                                         //Starting the sound equalizer activation process.
@@ -445,9 +431,9 @@ public class MainActivity extends ListActivity {
                     elControl.stopPlaying();
                     elControl.releaseEqualizer(0);
                                         //Starting the radio turn on activity
-                   // Intent intento = new Intent(contexto, NKRadio.class);
-                    //intento.putExtra("NIKO", "Este es el NIKOLAZO");
-                    //startActivity(intento);
+                    Intent intento = new Intent(contexto, NKRadio.class);
+                    intento.putExtra("NIKO", "Este es el NIKOLAZO");
+                    startActivity(intento);
                     break;
 
             }   //End of switch()
@@ -458,6 +444,7 @@ public class MainActivity extends ListActivity {
         }   //End of OnClick() function
 
     }   //End of inner class UIBotonListener
+
 
 
 
@@ -477,7 +464,7 @@ public class MainActivity extends ListActivity {
 
         if (requestCode == RESULT_FROM_ACTIVITY && resultCode == RESULT_OK) {
                                         //Getting info to know if user did any data update
-            boolean myBool = data.getBooleanExtra(UPDATE_NEEDED, false);
+            boolean myBool = data.getBooleanExtra(UPDATE_NEEDED, true);
                                         //if to handle data updates done by user
             if (myBool) {
                                         //Clearing ArrayList to get new updated data
@@ -503,7 +490,7 @@ public class MainActivity extends ListActivity {
                 muxListViewAdapter.createHashMap();
                 muxListViewAdapter.notifyDataSetChanged();
                                         //Asking controlling class to update its play list data from db
-                elControl.setArrayListPlaylist();
+                elControl.setArrayListPlaylist(arrListPlaylistFromDB);
                                         //Adjusting song number when it is bigger than ArrayList size
                 if (elControl.getiSongPlayingNumber() >= arrListPlaylistFromDB.size()) {
                     elControl.setiSongPlayingNumber(arrListPlaylistFromDB.size() - 1);
@@ -516,6 +503,7 @@ public class MainActivity extends ListActivity {
         }
 
     }   //End of onActivityResult() function
+
 
 
 
@@ -533,42 +521,6 @@ public class MainActivity extends ListActivity {
 
     }   //End of onDestroy() function
 
-
-
-    /***************************ESTO PUEDE SER USADO EN LA
-     * CLASE DONDE SE HACE EL UPDATE DE LA DB PARA SELECCIONAR EL DIRECTORIO
-     * QUE SE QUIERE TRAVERSAR
-
-    public void selectSDCardExternalInternalDirectory(){
-        l("Valor del BooleanPermiso:  " + bPermissionsState);
-        l("Valor del BooleanPermiso:  " + String.valueOf(bPermissionsState));
-        l("\n");
-        Intent intent = new Intent(this, BasePublicStorage.class);
-        intent.putExtra("boolPermiso", bPermissionsState);
-        startActivityForResult(intent, REQ_CODE_SDCARD_DIR, null);
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        l("reqCode + resulCode: " + requestCode + " -- " + resultCode);
-        if (requestCode == REQ_CODE_SDCARD_DIR) {
-            if (resultCode == RESULT_OK) {
-                String filePath = data.getStringExtra("DirSelected");
-                l("EL FILE SELECCIONADO ES: " + filePath);
-                MediaPlayer mp = new MediaPlayer();
-                try {
-                    mp.setDataSource(filePath + "/Caifanes - Detras de ti.mp3");
-                    mp.prepare();
-                    mp.start();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-**********************************************************///////////////
 
 
     /**
@@ -609,6 +561,7 @@ public class MainActivity extends ListActivity {
 
 
 
+
     /**
      * onRequestPermissionsResult(int, String[], int[]) function is used to manage the user
      * decision of permission granting. bPermissionsState variable is set tp true or false
@@ -620,24 +573,30 @@ public class MainActivity extends ListActivity {
      * @param grantResults type int[]
      */
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                                                    @NonNull int[] grantResults) {
 
         switch (requestCode) {
                                         //Permission granted case
             case PERMISION_ACCESS_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //l("Permission Granted:  " + grantResults.length + "  -  " + grantResults[0]);
                     bPermissionsState = true;
                 }
                 break;
                                         //User denied permission to access storage
             default:
-                //l("ALGO SALIO MAL CON LOS PERMISOS. EN LA FUNCION ONREQUESTPERMISSIONRESULT");
                 bPermissionsState = false;
                 break;
         }
+
     }   //End of onRequestPermissionsResult () function
 
+
+    @Override
+    public void onBackPressed() {
+
+        super.onBackPressed();
+    }
 
 
     /**
@@ -650,7 +609,10 @@ public class MainActivity extends ListActivity {
      */
     private void l(String str){
         Log.d("NIKO", this.getClass().getSimpleName() + " -> " + str);
-    }
+
+    }   //End of l() function
+
+
 
 }   //End of Class MainActivity
 

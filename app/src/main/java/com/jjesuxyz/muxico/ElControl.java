@@ -24,7 +24,16 @@ import com.jjesuxyz.muxico.DBData.DataAnalisis;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
+
+
+
 /**
+ * ElControl class is used to manage the process to play a list of songs, MP3 files, and to
+ * manage the setting and use and synchronization of the sound equalizer. This class contains
+ * a link to the MainActivity class to modify and synchronize info, shown to the user, with
+ * the song being played by this class.
+ *
  * Created by jjesu on 6/6/2018.
  */
 
@@ -33,12 +42,12 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
 
                                         //Pointer to the main class of this project
     MainActivity contextoMA;
-
+                                        //ArrayLIst to hold the list of songs to be played
     private ArrayList<String> arrayListPlayList;
     private MediaPlayer mdPlayer;
-                                        //Inner class
+                                        //Inner class to synchronize SeekBar with song being played
     private AsyThrMngSeekBar asyThrMngSeekBar = null;
-                                        //set of variables used with the equalizer
+                                        //Set of variables used with the equalizer
     private Equalizer equalizer;
     private int numberBands;
     private short numberPresets;
@@ -47,11 +56,15 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
                                         //Song time information
     private int iSongCurrentTime = 0;
     private int iSongTotalTime = 0;
-                                        //Var to handle some states
+                                        //Vars to manage pause and loop states
     private boolean btnLoopState = false;
     private boolean bIsSongPaused = false;
-
+                                        //Index sof song being played
     private int iSongPlayingNumber = 0;
+                                        //Object to access local database
+    private DataAnalisis dataAnalisis;
+
+
 
 
 
@@ -65,40 +78,50 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
     public ElControl(MainActivity contexto){
         this.contextoMA = contexto;
         initDB();
-//        setArrayListPlaylist();
         arrayListPlayList = new ArrayList<>();
-    }//End of class constructor
+
+    }   //End of class constructor
 
 
 
 
-
-
-
-    ///////////////////////////////VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV/////////////////////////////
-/////////ESTO ES DE LA ULTIMA VERSION CREO QUE TRABAJA COMO SE ESPERA QUE TRABAJE
-////////SOLO CHECAR USANDO EO EMULADOR O EL TELEFONO
-    DataAnalisis dataAnalisis;
-
+    /**
+     * initDB() function is used to initialize a DBAccess object to access the local database.
+     */
     private void initDB(){
-        //dbgFunc("FUNCION INIT-ELCONTROL");
+                                        //Initializing object to access DB
         dataAnalisis = new DataAnalisis();
-       // dataAnalisis.setContexto(contextoMA);
-        //dataAnalisis.setFullListTable();
-        //dataAnalisis.setArrayListPlaylist();
-    }
 
+    }   //End of initDB() function
+
+
+
+
+    /**
+     * setiSongPlayingNumber(int) function is used to set the variable holding the number/index
+     * of the song being played. This number is the index in the ArrayList holding the list of
+     * mp3 files to be played
+     *
+     * @param iSongPlayingNumber type int
+     */
     public void setiSongPlayingNumber(int iSongPlayingNumber){
         this.iSongPlayingNumber = iSongPlayingNumber;
-    }
 
+    }   //End of setiSongPlayingNumber() function
+
+
+
+
+    /**
+     * getiSongPlayingNumber() function is used to returns the ArrayList index of the song being
+     * played. It is mostly used in the MainActivity class ListView.
+     *
+     * @return type int
+     */
     public int getiSongPlayingNumber(){
         return iSongPlayingNumber;
-    }
-//////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^///////////////////////////
 
-
-
+    }   //End of getiSongPlayingNumber() function
 
 
 
@@ -114,17 +137,21 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      *
      */
     public void setArrayListPlaylist(){
+
         DBAccess dbAccess =  new DBAccess(contextoMA);
         Cursor cursor = dbAccess.getAllMP3FilePathsFromDBPlaylistTable();
+
         int index = cursor.getColumnIndex(DBAccessHelper.TABLE_PLAY_LIST);
         while (cursor.moveToNext()) {
             String str = cursor.getString(0);
-            l("PLay list file name: " + str);
+                                        //l("PLay list file name: " + str);
             arrayListPlayList.add(str);
         }
         dbAccess.close();
-        //arrayListPlayList = dataAnalisis.getArrayListPlaylist(); //arrListPlaylistFromDB;;
-    }//End of setArrListFiles() function
+
+    }   //End of setArrListFiles() function
+
+
 
 
     /**
@@ -135,10 +162,12 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      * @param arrayListPlaylistParam type ArrayList
      */
     public void setArrayListPlaylist(ArrayList<String> arrayListPlaylistParam){
-        arrayListPlayList = arrayListPlaylistParam;
+        if (arrayListPlayList != null) {
+            arrayListPlayList.clear();
+            arrayListPlayList = arrayListPlaylistParam;
+        }
 
-    }//End of setArrListFiles() function
-
+    }   //End of setArrListFiles() function
 
 
 
@@ -156,7 +185,9 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
         else{
             return null;
         }
-    }//End of getArrListFiles() function
+
+    }   //End of getArrListFiles() function
+
 
 
 
@@ -167,7 +198,9 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      * @return type String
      */
     public String getCurrentPlayingSongName(){
+        l("control->songplayingnumber:  " + iSongPlayingNumber);
         if (arrayListPlayList.size() >= 1) {
+            l("control->songplayingnumber:  " + iSongPlayingNumber);
             String currentPlayingSongName = arrayListPlayList.get(iSongPlayingNumber);
             return currentPlayingSongName;
         }
@@ -175,7 +208,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
             return "";
         }
 
-    }//End of getCurrentPlayingSongName() function
+    }   //End of getCurrentPlayingSongName() function
 
 
 
@@ -185,9 +218,12 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
 
 
 
+
+
     /************************************************************************************
      * PLAYING SONGS LOGISTIC CODE SECTION                                              *
      ************************************************************************************/
+
 
 
 
@@ -200,7 +236,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
     public MediaPlayer getMdPlayer(){
         return mdPlayer;
 
-    }//End of getMdPlayer() function
+    }   //End of getMdPlayer() function
+
 
 
 
@@ -219,7 +256,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
             return -1;
         }
 
-    }//End of getMdPlayerAudioSessionId() function
+    }   //End of getMdPlayerAudioSessionId() function
+
 
 
 
@@ -230,6 +268,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      * @return type boolean
      */
     public boolean isMdPlayerPlaying(){
+                                        //True song is being played
         if(mdPlayer != null) {
             return mdPlayer.isPlaying();
         }
@@ -237,7 +276,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
             return false;
         }
 
-    }//End of isMediaPlayerPlaying
+    }   //End of isMediaPlayerPlaying
+
 
 
 
@@ -248,8 +288,11 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      * @return type int
      */
     public int getSongTotalTime(){
+                                        //Variable set when song starts playing
         return iSongTotalTime;
-    }//End of getSongTotalTime() function
+
+    }   //End of getSongTotalTime() function
+
 
 
 
@@ -274,7 +317,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
                                         //Equalizer object
         releaseEqualizer(1);
 
-    }//End of stopPlaying() function
+    }   //End of stopPlaying() function
+
 
 
 
@@ -287,19 +331,20 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
         if(mdPlayer != null){
                                         //Pausing song
             if(mdPlayer.isPlaying()){
-                Log.d("PAUSE", "MD Playing");
+                                        //Log.d("PAUSE", "MD Playing");
                 bIsSongPaused = true;
                 mdPlayer.pause();
             }
             else{
-                Log.d("PAUSE", "NO Playing");
+                                        //Log.d("PAUSE", "NO Playing");
                                         //Restarting song
                 bIsSongPaused = false;
                 mdPlayer.start();
             }
         }
 
-    }//End of pausePlayingSong() function
+    }   //End of pausePlayingSong() function
+
 
 
 
@@ -310,6 +355,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      *
      */
     public void playNextSong(){
+                                        //Making sure song number is not beyond ArrayList range
         if((iSongPlayingNumber + 1) < arrayListPlayList.size()){
             iSongPlayingNumber = iSongPlayingNumber + 1;
         }
@@ -320,7 +366,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
                                         //Actually playing the audio file
         playMySong(songName);
 
-    }//End of playNextSong() function
+    }   //End of playNextSong() function
+
 
 
 
@@ -331,6 +378,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      *
      */
     public void playPreviousSong(){
+                                        //Making sure song number is not negative
         if((iSongPlayingNumber - 1) >= 0){
             iSongPlayingNumber = iSongPlayingNumber - 1;
         }
@@ -341,17 +389,19 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
                                         //Actually playing the audio file
         playMySong(songName);
 
-    }//End of playPreviousSong() function
+    }   //End of playPreviousSong() function
+
 
 
 
     /**
-     * The playSongFromList() function is used to play an audio file when user click an mp3
+     * playSongFromList() function is used to play an audio file when user click an mp3
      * file from the list of mp3 files that are in the device sdcard.
      *
      * @param position type int
      */
     public void playSongFromList(int position){
+                                        //Making sure song number is within ArrayList size range
         if(position >= 0 && position <= arrayListPlayList.size()){
             iSongPlayingNumber = position;
         }
@@ -359,7 +409,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
                                         //Actually playing the the audio file
         playMySong(songName);
 
-    }//End of playSongFromList() function
+    }   //End of playSongFromList() function
+
 
 
 
@@ -372,15 +423,14 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      * @param songNamePar type String
      */
     public void playSong(String songNamePar){
-        Log.d("ISONG:  ", String.valueOf(iSongPlayingNumber));
-        Log.d("SIZE:   ", String.valueOf(arrayListPlayList.size()));
-        //Toast.makeText(contextoMA, "ISNP: " + iSongPlayingNumber + ",  " + arrayListPlayList.size(), Toast.LENGTH_SHORT).show();
+                                        //Making sure song number is within ArrayList size range
         if(iSongPlayingNumber >= 0 && iSongPlayingNumber < arrayListPlayList.size()){
             String songName = arrayListPlayList.get(iSongPlayingNumber);
             playMySong(songName);       //Call function to Actually playing the song
         }
 
-    }//End of playSong() function
+    }   //End of playSong() function
+
 
 
 
@@ -405,6 +455,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
         mdPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
+                                        //Making sure that song being played is stopped
                 stopPlaying();
                 iSongCurrentTime = 0;
                 iSongTotalTime = 0;
@@ -417,21 +468,21 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
                     }
                                         //Playing next if looping is on
                     playMySong(arrayListPlayList.get(iSongPlayingNumber));
-
-
-                } else {
+                }
+                else {
                                         //No more playing
                     mdPlayer = null;
                 }
             }
         });
+
                                         //Setting MP to actually play song
         try{
             bIsSongPaused = false;
             mdPlayer.setDataSource(songName);
             mdPlayer.prepare();
             mdPlayer.start();
-                                        //Getting and setting song info for users
+                                        //Getting and setting song info for users on SeekBar
             iSongCurrentTime = mdPlayer.getCurrentPosition();
             iSongTotalTime = mdPlayer.getDuration() / 1000;
             contextoMA.setSeekBarMax(iSongTotalTime);
@@ -441,32 +492,23 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
             asyThrMngSeekBar = null;
             asyThrMngSeekBar = new AsyThrMngSeekBar();
             asyThrMngSeekBar.execute();
-
-
-/*CHECAR POR BUGS NO DEL PROGRAM CANCIONERO0_8-
- * BUGS DEL SYSTEMA
- */
-  ///////////          //////////////////////////////////////////////////////////////////////////
+                                        //Scrolling ListView display to show song name being played
             contextoMA.getMyListView().smoothScrollToPositionFromTop(iSongPlayingNumber, 0, 1000);
-            /////////////////////////////////////////////////////////////////////////
-
-
-
                                         //Activating the equalizer if button is clicked
             if(presetSelectedNumber >= 0){
-                releaseEqualizer(1);    //no modify preset y btnEqulizer en MainAct
+                releaseEqualizer(1);    //no modify preset y btnEqualizer en MainAct
                 equalizer = new Equalizer(0, mdPlayer.getAudioSessionId());
                 equalizer.setEnabled(true);
                 equalizer.usePreset(presetSelectedNumber);
             }
         }
                                         //Catching error
-        catch (IllegalArgumentException | SecurityException
-                | IllegalStateException | IOException e){
+        catch (IllegalArgumentException | SecurityException | IllegalStateException | IOException e){
             e.printStackTrace();
         }
 
-    }//End of playMySong() function
+    }   //End of playMySong() function
+
 
 
 
@@ -479,7 +521,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
     public void setBtnLoopState(boolean btnLoopState){
         this.btnLoopState = btnLoopState;
 
-    }//End of setBtnLoopState() function
+    }   //End of setBtnLoopState() function
+
 
 
     /************************************************************************************
@@ -489,9 +532,11 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
 
 
 
+
     /************************************************************************************
      * EQUALIZER CODE SECTION                                                           *
      ************************************************************************************/
+
 
 
     /**
@@ -504,7 +549,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
     public void setEqualizerState(){
         setSoundEqualizerServiceON();
 
-    }//End of function
+    }   //End of function
+
 
 
 
@@ -540,7 +586,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
             }
         }
 
-    }//End of function
+    }   //End of function
+
 
 
 
@@ -562,7 +609,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
                                         //Getting the list of Radio Buttons that are in the
                                         //dialog window with the equalizer preset options
         ArrayList<RadioButton> radioButtonsArr = new ArrayList<RadioButton>();
-        RadioGroup radioGroup = (RadioGroup) promptView.findViewById(R.id.radioGroupId);
+        RadioGroup radioGroup = promptView.findViewById(R.id.radioGroupId);
         int radioGroupSize = radioGroup.getChildCount();
         for(int i = 0; i < radioGroupSize; i++){
             RadioButton radioBtnTmp = (RadioButton) radioGroup.getChildAt(i);
@@ -582,7 +629,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton rdBtnTmp = (RadioButton) group.findViewById(checkedId);
+                RadioButton rdBtnTmp = group.findViewById(checkedId);
                 dbgFunc(rdBtnTmp.getText().toString());
                                         //Getting preset number, setting equalizer to that preset
                 presetSelectedNumber = (short)presetNamesList.indexOf(rdBtnTmp.getText().toString());
@@ -630,7 +677,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
                                         //Setting dialog buttons background to blue
         customizeDialogButtons(alertDialog);
 
-    }// End of function showSoundPresetsDialog()
+    }   // End of function showSoundPresetsDialog()
+
 
 
 
@@ -655,7 +703,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
         btnNeutralTmp.setTextColor(Color.BLUE);
         btnNeutralTmp.setTextSize(18.0f);
 
-    }//End of function customizeDialogButtons()
+    }   //End of function customizeDialogButtons()
+
 
 
 
@@ -668,6 +717,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      * @param totalRelease type int
      */
     public void releaseEqualizer(int totalRelease){
+                                        //Release and disabling equalizer
         if(equalizer != null) {
             equalizer.setEnabled(false);
             equalizer.release();
@@ -681,22 +731,13 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
             dbgFunc("Equalizer is OFF");
         }
 
-    }//End of releaseEqualizer() function
+    }   //End of releaseEqualizer() function
+
 
 
     /************************************************************************************
      * END OF EQUALIZER CODE SECTION                                                    *
      ************************************************************************************/
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -710,7 +751,9 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      */
     @Override
     public void onAudioFocusChange(int focusChange) {
-    }//End of onAudioFocusChange() function
+    }   //End of onAudioFocusChange() function
+
+
 
 
 
@@ -761,7 +804,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
                                         //The final result, when the audio file ends
             return (counter[0]++).toString();
 
-        }//End of doInBackground() function
+        }   //End of doInBackground() function
+
 
 
 
@@ -777,7 +821,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
             contextoMA.setTxtvwSongCurrentTime(contador[0].toString());
             contextoMA.setSeekBarProgress(contador[0]);
 
-        }//End of function
+        }   //End of function
+
 
 
 
@@ -786,6 +831,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
          */
         @Override
         protected void onPreExecute(){}
+
 
 
 
@@ -800,7 +846,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
             contextoMA.setTxtvwSongCurrentTime("Song Ended at: " + contador + " secs");
             contextoMA.setSeekBarProgress(0);
 
-        }//End of function
+        }   //End of function
+
 
 
 
@@ -817,7 +864,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
 
         }
 
-    }//End of the class AsyThrMngSeekBar
+    }   //End of the class AsyThrMngSeekBar
+
 
     /************************************************************************************
      * END OF SEEK BAR SYNCHRONIZATION CODE SECTION                                      *
@@ -835,14 +883,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
     private void dbgFunc(String str){
         Toast.makeText(contextoMA, str, Toast.LENGTH_SHORT).show();
 
-    }//End of function
+    }   //End of function
 
-
-
-    //@Override
-    //public void onAudioFocusChange(int focusChange) {
-
-    //}
 
 
 

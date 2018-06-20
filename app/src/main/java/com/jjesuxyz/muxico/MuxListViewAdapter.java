@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 
 /**
+ * MuxListViewAdapter class
+ *
  * Created by jjesu on 6/6/2018.
  */
 
@@ -40,8 +42,8 @@ public class MuxListViewAdapter extends BaseAdapter {
      * interface. It calls another function to fill another ArrayList holding the numbers
      * mp3 files that the device contains.
      *
-     * @param activity
-     * @param mp3FilePath
+     * @param activity type Activity
+     * @param mp3FilePath type ArrayList
      */
     public MuxListViewAdapter(Activity activity, ArrayList<String> mp3FilePath){
         super();
@@ -55,7 +57,11 @@ public class MuxListViewAdapter extends BaseAdapter {
 
 
 
-
+    /**
+     * getData() function is used to returns just the ArrayList holding MP3 file paths.
+     *
+     * @return type ArrayList
+     */
     public ArrayList<String> getData(){
         return listMP3FilePath;
     }
@@ -67,8 +73,7 @@ public class MuxListViewAdapter extends BaseAdapter {
      * files in the device. This list of numbers is used to customize each row in the
      * ListView since each row contains one number and the mp3 file path string.
      *
-     * @param
-     * @return void
+     * @return type void
      */
     public void createHashMap(){
         listMP3RowNumber = new ArrayList<String>();
@@ -83,8 +88,7 @@ public class MuxListViewAdapter extends BaseAdapter {
      * getCount() function is used to return the number of mp3 files that are saved in
      * the device sdcard.
      *
-     * @param
-     * @return int
+     * @return type int
      */
     @Override
     public int getCount() {
@@ -97,8 +101,8 @@ public class MuxListViewAdapter extends BaseAdapter {
      * getItem() this function is used to return the file path of an mp3 file. It needs
      * the ArrayList position of the mp3 file.
      *
-     * @param position
-     * @return Object
+     * @param position type int
+     * @return type Object
      */
     @Override
     public Object getItem(int position) {
@@ -110,8 +114,8 @@ public class MuxListViewAdapter extends BaseAdapter {
     /**
      * getItemId() function is not used by the programmer coding this project.
      *
-     * @param position
-     * @return long
+     * @param position int
+     * @return type long
      */
     @Override
     public long getItemId(int position) {
@@ -128,10 +132,10 @@ public class MuxListViewAdapter extends BaseAdapter {
      * This function also customizes the background color of adjacent row to different
      * colors.
      *
-     * @param position
-     * @param convertView
-     * @param parent
-     * @return void
+     * @param position type int
+     * @param convertView type View
+     * @param parent type ViewGroup
+     * @return type void
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
