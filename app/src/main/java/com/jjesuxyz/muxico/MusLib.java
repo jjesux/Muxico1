@@ -30,7 +30,7 @@ public class MusLib extends FragmentActivity
                                     ViewPager.OnPageChangeListener,
                                     ListaCompletaFrgmTab.ListaCompletaFrgmInterfaceListener,
                                     PlayListFrgmTab.PlayListInterfaceListener,
-                                    AlbumListFragTab.AlbumInterfaceListener{
+                                    SingerListFragTab.SingerInterfaceListener{
 
 
 
@@ -44,7 +44,7 @@ public class MusLib extends FragmentActivity
     private ActionBar.Tab tab2;
     private final String ALL_MP3_FILES = "ALL MP3 FILES";
     private ActionBar.Tab tab3;
-    private final String ALBUMS = "ALBUMS";
+    private final String SINGER = "SINGERS";
                                         //ActionBar widget
     private ActionBar actionBar;
                                         //Arrays holding MP3 file paths
@@ -86,7 +86,7 @@ public class MusLib extends FragmentActivity
         actionBar.addTab(tab2);
                                         //Tab 3 to insert into ActionBar widget
         tab3 = actionBar.newTab();
-        tab3.setText(ALBUMS);
+        tab3.setText(SINGER);
         tab3.setTabListener(this);
         actionBar.addTab(tab3);
                                         //Instantiating the SwipePageAdapter
@@ -296,9 +296,9 @@ public class MusLib extends FragmentActivity
                     return listaCompletaFrgmTab;
                 case 2:
                                         //Creating fragments to be displayed
-                    AlbumListFragTab albumListFragTab = new AlbumListFragTab();
+                    SingerListFragTab singerListFragTab = new SingerListFragTab();
                                         //Returning fragment to be displayed
-                    return albumListFragTab;
+                    return singerListFragTab;
                 default:
                     return null;
             }

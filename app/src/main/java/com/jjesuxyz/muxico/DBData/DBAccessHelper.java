@@ -28,8 +28,8 @@ public class DBAccessHelper extends SQLiteOpenHelper{
     public static final String TABLE_PLAY_LIST =  "tb_playlist";
     public static final String COLUMN_PLAYLIST_SONGS = "col_playlist_songs";
 
-    public static final String TABLE_ALBUM_LIST =  "tb_album_list";
-    public static final String COLUMN_ALBUMLIST_NAMES = "col_album_list_names";
+    public static final String TABLE_SINGER_LIST =  "tb_singer_list";
+    public static final String COLUMN_SINGERLIST_NAMES = "col_singer_list_names";
 
     private static final String DATABASE_NAME =   "nk.db";
     private static final int DATABASE_VERSION = 1;
@@ -43,9 +43,9 @@ public class DBAccessHelper extends SQLiteOpenHelper{
                         "CREATE TABLE " + TABLE_PLAY_LIST + "("
                                         + COLUMN_PLAYLIST_SONGS + " text not null); ";
 
-    public static final String DATABASE_CREATE_ALBUMLIST =
-                        "CREATE TABLE " + TABLE_ALBUM_LIST + "("
-                                        + COLUMN_ALBUMLIST_NAMES + " text not null); ";
+    public static final String DATABASE_CREATE_SINGERLIST =
+                        "CREATE TABLE " + TABLE_SINGER_LIST + "("
+                                        + COLUMN_SINGERLIST_NAMES + " text not null); ";
 
     private final String t = "NIKO";    //Variable for debugging usage
 
@@ -79,7 +79,7 @@ public class DBAccessHelper extends SQLiteOpenHelper{
                                         //Creating database tables
             db.execSQL(DATABASE_CREATE_FULLLIST);
             db.execSQL(DATABASE_CREATE_PLAYLIST);
-            db.execSQL(DATABASE_CREATE_ALBUMLIST);
+            db.execSQL(DATABASE_CREATE_SINGERLIST);
         }
         catch (SQLException sqle) {
             sqle.printStackTrace();

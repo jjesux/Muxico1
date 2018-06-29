@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import com.jjesuxyz.muxico.DBData.DBAccess;
 import com.jjesuxyz.muxico.DBData.DBAccessHelper;
-import com.jjesuxyz.muxico.DBData.DataAnalisis;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,7 +40,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
 
 
                                         //Pointer to the main class of this project
-    MainActivity contextoMA;
+    private MainActivity contextoMA;
                                         //ArrayLIst to hold the list of songs to be played
     private ArrayList<String> arrayListPlayList;
     private MediaPlayer mdPlayer;
@@ -61,8 +60,6 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
     private boolean bIsSongPaused = false;
                                         //Index sof song being played
     private int iSongPlayingNumber = 0;
-                                        //Object to access local database
-    private DataAnalisis dataAnalisis;
 
 
 
@@ -90,7 +87,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      */
     private void initDB(){
                                         //Initializing object to access DB
-        dataAnalisis = new DataAnalisis();
+
 
     }   //End of initDB() function
 
@@ -267,7 +264,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      *
      * @return type boolean
      */
-    public boolean isMdPlayerPlaying(){
+    boolean isMdPlayerPlaying(){
                                         //True song is being played
         if(mdPlayer != null) {
             return mdPlayer.isPlaying();
@@ -287,7 +284,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      *
      * @return type int
      */
-    public int getSongTotalTime(){
+    int getSongTotalTime(){
                                         //Variable set when song starts playing
         return iSongTotalTime;
 
@@ -302,7 +299,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      * and the SeekBar synchronizing object.
      *
      */
-    public void stopPlaying(){
+    void stopPlaying(){
         bIsSongPaused = false;
                                         //SeekBar object
         if(asyThrMngSeekBar != null){
@@ -327,7 +324,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      * restarts playing the song if user click the paused button again.
      *
      */
-    public void pausePlayingSong(){
+    void pausePlayingSong(){
         if(mdPlayer != null){
                                         //Pausing song
             if(mdPlayer.isPlaying()){
@@ -354,7 +351,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      * list of files.
      *
      */
-    public void playNextSong(){
+    void playNextSong(){
                                         //Making sure song number is not beyond ArrayList range
         if((iSongPlayingNumber + 1) < arrayListPlayList.size()){
             iSongPlayingNumber = iSongPlayingNumber + 1;
@@ -377,7 +374,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      * of the list of mp3 files that are in the device sdcard.
      *
      */
-    public void playPreviousSong(){
+    void playPreviousSong(){
                                         //Making sure song number is not negative
         if((iSongPlayingNumber - 1) >= 0){
             iSongPlayingNumber = iSongPlayingNumber - 1;
@@ -400,12 +397,12 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      *
      * @param position type int
      */
-    public void playSongFromList(int position){
+    void playSongFromList(int position){
                                         //Making sure song number is within ArrayList size range
         if(position >= 0 && position <= arrayListPlayList.size()){
             iSongPlayingNumber = position;
         }
-        String songName = arrayListPlayList.get(iSongPlayingNumber);
+         String songName = arrayListPlayList.get(iSongPlayingNumber);
                                         //Actually playing the the audio file
         playMySong(songName);
 
@@ -422,7 +419,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      *
      * @param songNamePar type String
      */
-    public void playSong(String songNamePar){
+    void playSong(String songNamePar){
                                         //Making sure song number is within ArrayList size range
         if(iSongPlayingNumber >= 0 && iSongPlayingNumber < arrayListPlayList.size()){
             String songName = arrayListPlayList.get(iSongPlayingNumber);
@@ -518,7 +515,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      *
      * @param btnLoopState type boolean
      */
-    public void setBtnLoopState(boolean btnLoopState){
+    void setBtnLoopState(boolean btnLoopState){
         this.btnLoopState = btnLoopState;
 
     }   //End of setBtnLoopState() function
@@ -568,7 +565,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
         }
         else{                           //AVISO: checar si la session audio id es zero or menor que zero
                                         //creating new equalizer and getting information
-            if(arrayListPlayList.size() > 0 && arrayListPlayList.get(0).equals(DataAnalisis.PLAYLIST_EMPTY)){
+            if(arrayListPlayList.size() > 0 && arrayListPlayList.get(0).equals(MainActivity.PLAYLIST_EMPTY)){
                 dbgFunc("Playlist is empty. Select songs first.");
             }
             else {
@@ -716,7 +713,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      *
      * @param totalRelease type int
      */
-    public void releaseEqualizer(int totalRelease){
+    void releaseEqualizer(int totalRelease){
                                         //Release and disabling equalizer
         if(equalizer != null) {
             equalizer.setEnabled(false);

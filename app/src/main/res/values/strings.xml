@@ -1,3 +1,4 @@
+
 <resources>
     <string name="app_name">Muxico</string>
 
@@ -7,16 +8,56 @@
     <string name="txtvw_song">Playing: </string>
     <string name="txtvw_song_name">Song Name</string>
 
-    <array name="nk_array">
-        <item>hello</item>
-        <item>kilo</item>
-        <item>foca</item>
-        <item>leon</item>
-        <item>gato</item>
-        <item>wats</item>
-        <item>ucsc</item>
-        <item>SJSU</item>
-        <item>irapuato</item>
-        <item>abasolo</item>
-    </array>
+    <string name="play_list_name">Play List Songs</string>
+    <string name="play_list_play_all">Play All</string>
+    <string name="play_list_delete">Delete</string>
+    <string name="play_list_clear">Clear</string>
+    <string name="play_list_update">Update</string>
+
+    <string name="full_list_name">All MP3 Files In This Device</string>
+    <string name="full_list_play_all">Play All</string>
+    <string name="full_list_add">Add Play List</string>
+    <string name="full_list_update">Update DB List</string>
+
+    <string name="singer_list_name">List Of Singers In This Device</string>
+    <string name="singer_list_play_all">Play All</string>
+    <string name="singer_list_add">Add Singer</string>
+    <string name="singer_list_update">Update List</string>
+
+    <string name="ma_prog_min">min:sec</string>
+    <string name="ma_prog_max">max:sec</string>
+    <string name="ma_prog_radio">Radio</string>
+    <string name="ma_prog_lib">Library</string>
+    <string name="ma_prog_off">OFF</string>
+
+    <string name="radio_name">Radio NYKZ</string>
+    <string name="radio_station">Radio Station</string>
+    <string name="radio_off">Off</string>
+    <string name="radio_play">Play</string>
+    <string name="radio_preset">Presets</string>
+    <string name="radio_equal">Equal</string>
+    <string name="radio_buena_onda">La Buena Onda</string>
+    <string name="radio_rancherita">La Rancherita</string>
+    <string name="radio_variedades">Radio Variedades</string>
+    <string name="radio_rancherita_leo">Rancherita XELEO</string>
+    <string name="radio_cafe">Cafe Romantico Radio</string>
+    <string name="radio_salsa">Radio Salsa"</string>
+
+
+
+    <string name="equa_preset">Select Sound Preset</string>
+    <string name="equa_preset_1">Preset 1</string>
+    <string name="equa_preset_2">Preset 2</string>
+    <string name="equa_preset_3">Preset 3</string>
+    <string name="equa_preset_4">Preset 4</string>
+    <string name="equa_preset_5">Preset 5</string>
+    <string name="equa_preset_6">Preset 6</string>
+    <string name="equa_preset_7">Preset 7</string>
+    <string name="equa_preset_8">Preset 8</string>
+    <string name="equa_preset_9">Preset 9</string>
+    <string name="equa_preset_10">Preset 10</string>
+    <string name="equa_preset_11">Preset 11</string>
+    <string name="equa_preset_12">Preset 12</string>
+
+
 </resources>

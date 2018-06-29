@@ -24,6 +24,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
+ * BasePublicStorage class is not implemented or used in this version of the app. It will be used
+ * show to the user the device storages that the app can access. This storage may be the internal
+ * and external storage, so that the user can select which storage search for mp3 files.
+ *
  * Created by jjesu on 6/4/2018.
  */
 

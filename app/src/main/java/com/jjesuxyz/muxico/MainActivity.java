@@ -5,7 +5,6 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -19,9 +18,6 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.jjesuxyz.muxico.DBData.DBAccess;
-import com.jjesuxyz.muxico.DBData.DataAnalisis;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -86,6 +82,7 @@ public class MainActivity extends ListActivity {
     private final int RESULT_FROM_ACTIVITY = 20;
 
     public static final String UPDATE_NEEDED = "UPDATE_MUS_LIB";
+    public static final String PLAYLIST_EMPTY = "PLAYLIST_IS_EMPTY";
                                         //Variable to get data from DB play list table
     ElModelo elModelo;
 
@@ -188,26 +185,6 @@ public class MainActivity extends ListActivity {
         return lView;
 
     }   //End of getMyListView() function
-
-
-
-    /**
-     * setbBtnPauseState() function is used to change the pause button text/state. The text is
-     * changed so the user can know when the pause button is on or off.
-     *
-     * //NOTE: ESTA FUNCtION NO SE USA EN ESTA VERSION DE ESTA APPLICAtION!!!!!!!!!!!!!!!
-     *
-     * @param bBtnPauseState type boolean
-     */
-    public void setbBtnPauseState(boolean bBtnPauseState) {
-        if(bBtnPauseState) {
-            this.btnPause.setText("ON");
-        }
-        else{
-            btnPause.setText("");       //Indicate that the pause process is off.
-        }
-
-    }   //End of setbBtnPauseState() function
 
 
 
@@ -404,7 +381,6 @@ public class MainActivity extends ListActivity {
                                         //Not implemented yet
                 case BTN_LOOP_ID:
                     elControl.setBtnLoopState(true);
-                    ;
                     break;
                                         //Start activity to manage play list library list
                 case BTN_MUS_LIB_ID:
@@ -480,7 +456,7 @@ public class MainActivity extends ListActivity {
                     elControl.getArrayListPlayList().clear();
                     elControl.setiSongPlayingNumber(0);
                                         //Setting info about song that maybe playing now
-                    txtvwPlayingSongName.setText(DataAnalisis.PLAYLIST_EMPTY);
+                    txtvwPlayingSongName.setText(MainActivity.PLAYLIST_EMPTY);
                     txtvwSongCurrentTime.setText("0");
                     txtvwSongTotalTime.setText("0");
                 }

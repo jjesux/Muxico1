@@ -18,10 +18,11 @@ import java.util.ArrayList;
 
 
 /**
- * PlayListFrgmTab class used to manage the UI fragment to let user manage the music library
- * play list. It shows a ListView to show data to user, it shows buttons to let user manage that
- * data. User can delete data one record at time or all the data with just one click. It allows
- * user to go back to the main UI app.
+ * PlayListFrgmTab class is used to manage the UI fragment to let user manage the music library
+ * play list. It shows a ListView to show data to user, and a set of buttons to let user manage
+ * the data that the ListView shows. The user can delete one record/row at time or all the data
+ * with just one click. It allows user to go back to the main UI app. The data/MP3 files path
+ * that the ListVIew display is retrieved from the database play list table.
  *
  * Created by jjesu on 6/8/2018.
  */
@@ -229,6 +230,7 @@ public class PlayListFrgmTab extends ListFragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
+
                                         //Creating object to access the local database
         ElModelo elModelo = new ElModelo(getContext());
                                         //Instantiating ArrayList to hold file paths from db

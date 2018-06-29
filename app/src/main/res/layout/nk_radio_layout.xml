@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -11,10 +12,10 @@
 
     <TextView
         android:id="@+id/txtvw1"
-        android:text="Radio NYKZ"
+        android:text="@string/radio_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         style="@style/nikoTextSize"
         android:textStyle="bold|italic"/>
 
@@ -41,8 +42,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="5dp"
-            android:text="Radio Station:"
+            android:layout_marginStart="5dp"
+            android:text="@string/radio_station"
             style="@style/nikoTextSize"/>
 
         <TextView
@@ -50,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:text="La Rancherita AM"
             style="@style/nikoTextSize"/>
 
@@ -59,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:text="1130 AM"
             style="@style/nikoTextSize"/>
     </LinearLayout>
@@ -79,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="OFF"
+            android:text="@string/radio_off"
             style="@style/nikoTextSize"
             android:background="@drawable/button_corner"/>
 
@@ -88,7 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="Play"
+            android:text="@string/radio_play"
             style="@style/nikoTextSize"
             android:background="@drawable/button_corner"/>
 
@@ -97,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="Presets"
+            android:text="@string/radio_preset"
             style="@style/nikoTextSize"
             android:background="@drawable/button_corner"/>
 
@@ -106,7 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="Equali"
+            android:text="@string/radio_equal"
             style="@style/nikoTextSize"
             android:background="@drawable/button_corner"/>
     </LinearLayout>
@@ -117,6 +118,7 @@
         android:layout_marginTop="5dp"
         android:layout_below="@id/lnrLay2"
         android:background="@drawable/border">
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -131,7 +133,7 @@
                     android:id="@+id/rdbtnStation0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="La Rancherita"
+                    android:text="@string/radio_buena_onda"
                     style="@style/nikoTextSize"
                     android:button="@drawable/button_radio"/>
 
@@ -139,7 +141,7 @@
                     android:id="@+id/rdbtnStation1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Radio Variedades"
+                    android:text="@string/radio_rancherita"
                     style="@style/nikoTextSize"
                     android:button="@drawable/button_radio"/>
 
@@ -147,7 +149,7 @@
                     android:id="@+id/rdbtnStation2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="La Buena Onda"
+                    android:text="@string/radio_variedades"
                     style="@style/nikoTextSize"
                     android:button="@drawable/button_radio"/>
 
@@ -155,7 +157,7 @@
                     android:id="@+id/rdbtnStation3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Radio Salsa"
+                    android:text="@string/radio_rancherita_leo"
                     style="@style/nikoTextSize"
                     android:button="@drawable/button_radio"/>
 
@@ -163,7 +165,7 @@
                     android:id="@+id/rdbtnStation4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Radio Salsa"
+                    android:text="@string/radio_cafe"
                     style="@style/nikoTextSize"
                     android:button="@drawable/button_radio"/>
 
@@ -171,7 +173,7 @@
                     android:id="@+id/rdbtnStation5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Radio Salsa"
+                    android:text="@string/radio_salsa"
                     style="@style/nikoTextSize"
                     android:button="@drawable/button_radio"/>
 

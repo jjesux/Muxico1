@@ -4,20 +4,18 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Environment;
 import android.util.Log;
-
 import com.jjesuxyz.muxico.DBData.DBAccess;
 import com.jjesuxyz.muxico.DBData.DBAccessHelper;
-
 import java.io.File;
 import java.util.ArrayList;
 
 
 
 /**
- * ELModelo public class is used to get access to the local database to insert records into
- * its tables and also to extract data from its tables. In theory all the user interface
- * activities and user interface fragments must use this class to access the local database.
- * Not totally done/accomplished yet.
+ * ELModelo public class is used to get access to the local database to insert, retrieve and
+ * delete records into or from its tables. In theory all the user interface activities and user
+ * interface fragments must use this class to access the local database. This theory is Not
+ * totally done/accomplished yet.
  * This class manages any data manipulation before sending that data to the classes that
  * asked for that data.
  *
@@ -27,11 +25,12 @@ import java.util.ArrayList;
 public class ElModelo {
                                         //Object to be pass to the class accessing the local DB
     private Context context;
-                                        //Arrays to hold data from database tables
+                                        //ArrayList to hold MP3 file paths obtained from SD Card
     private ArrayList<String> arrListFiles;
     private ArrayList<String> arrayListPLayList;
                                         //Variable to access local database
     private DBAccess dbAccess;
+
 
 
 
@@ -45,9 +44,7 @@ public class ElModelo {
     public ElModelo(Context context){
 
         arrListFiles =      new ArrayList<>();
-       // arrayListPLayList = new ArrayList<>();
         this.context = context;
-       // getAllMP3Files(null, 1);
 
     }   //End of constructor
 
@@ -82,18 +79,26 @@ public class ElModelo {
 
 
 
+    /**
+     * insertMultipleRecordsIntoFullListTable(ArrayList) function is used to insert multiple
+     * MP3 records into the local database full list table. It inserts into the database table
+     * all the records it receives as an ArrayList parameter.
+     * It does not returns any value.
+     *
+     * @param arrayListFilePath type ArrayList
+     */
     public void insertMultipleRecordsIntoFullListTable(ArrayList<String> arrayListFilePath){
-        //Checking that ArrayList has been instantiated before????
+                                        //Checking that ArrayList has been instantiated before????
         if (arrayListFilePath != null) {
-            //Getting access to the local database
+                                        //Getting access to the local database
             dbAccess = new DBAccess(context);
-            //Inserting multiple records into the database
+                                        //Inserting multiple records into the database table
             dbAccess.insertMultipleRecordsIntoFullListTable(arrayListFilePath);
             dbAccess.close();
             dbAccess = null;
         }
         else {
-            //Code just for debugging purposes
+                                        //Code just for debugging purposes
             l("Function insertMultipleRecordsIntoPlayListTable(AL<Str> => NULL) ");
         }
 
@@ -102,26 +107,39 @@ public class ElModelo {
 
 
 
+    /**
+     * insertMultipleRecordsIntoSingerListTable(ArrayList) function is used to insert multiple
+     * singer names records into the local database singer list table. It inserts into the database
+     * table all the records it receives as an ArrayList parameter.
+     * It does not returns any value.
+     *
+     * @param arrayListSingerName type ArrayList
+     */
+    public void insertMultipleRecordsIntoSingerListTable(ArrayList<String> arrayListSingerName){
+                                        //Checking that ArrayList has been instantiated before????
+        if (arrayListSingerName != null) {
+                                        //Getting access to the local database
+            dbAccess = new DBAccess(context);
+                                        //Inserting multiple records into the database table
+            dbAccess.insertMultipleRecordsIntoSingerListTable(arrayListSingerName);
+            dbAccess.close();
+            dbAccess = null;
+        }
+        else {
+                                        //Code just for debugging purposes
+            l("Function insertMultipleRecordsIntoSingerListTable(AL<Str> => NULL) ");
+        }
 
-
-
-
-
-
-
-
-
-
-
-
+    }   //End of insertMultipleRecordsIntoSingerListTable() function
 
 
 
 
     /**
-     * getArrayListFromPlayListTable() function is used to get all the records from
-     * the local database play list table. It returns all those records after extracting them
-     * the Cursor object it receives.
+     * getArrayListFromPlayListTable() function is used to get all the records from the local
+     * database play list table. It returns all those records after extracting them the Cursor
+     * object it receives. from the database.  It just calls another function in another class
+     * that actually access the database tables to complete the get data action.
      *
      * @return type ArrayList
      */
@@ -151,7 +169,8 @@ public class ElModelo {
     /**
      * getAllMP3FilePathFromDBFulllistTable(String) function is used to get all the records from
      * the local database full list table. It returns all those records after extracting them
-     * the Cursor object it receives.
+     * the Cursor object it receives. It just calls another function in another class that
+     * actually access the database tables to complete the get data action.
      *
      * Note: The String parameter it receives it is never used.
      *
@@ -182,10 +201,45 @@ public class ElModelo {
 
 
     /**
-     * deleteOneRowOnPlayListTable(String) function is used to deleted one record from the
-     * local database play list table. The string parameter it receives is the record that
-     * will be deleted from the database play list table.
-     * It returns the number of records deleted, 1 or 0.
+     * getAllSingerNamesFromDBSingerListTable(String) function is used to get all the records from
+     * the local database singer list table. It returns all those records after extracting them
+     * from the Cursor object it receives from DB. It just calls another function in another class
+     * that actually access the database tables to complete the get data action.
+     *
+     * Note: The String parameter it receives it is never used.
+     *
+     * @param strParam type String
+     * @return type ArrayList
+     */
+    public ArrayList<String> getAllSingerNamesFromDBSingerListTable(String strParam) {
+                                        //ArrayList to hold all singer names
+        arrayListPLayList = new ArrayList<>();
+                                        //Instantiating object to access local DB
+        dbAccess = new DBAccess(context);
+                                        //Getting all singer names from local DB
+        Cursor cursor = dbAccess.getAllSingerNamesFromDBSingerListTable();
+        int index = cursor.getColumnIndex(DBAccessHelper.TABLE_SINGER_LIST);
+                                        //Extracting singer names from Cursor
+        while (cursor.moveToNext()) {
+            String str = cursor.getString(0);
+            arrayListPLayList.add(str);
+        }
+                                        //Closing local DB
+        dbAccess.close();
+                                        //Returning all singer names gotten from local Db
+        return arrayListPLayList;
+
+    }   //End of getAllSingerNamesFromDBSingerListTable() function
+
+
+
+
+    /**
+     * deleteOneRowOnPlayListTable(String) function is used to deleted one record from the local
+     * database play list table. The string parameter it receives is the record that will be
+     * deleted from the database play list table.  It returns the number of records deleted which
+     * are 1 or 0. It just calls another function in another class that actually access the
+     * database tables to complete the delete action.
      *
      * @param strTmp String
      * @return type int
@@ -211,7 +265,8 @@ public class ElModelo {
 
     /**
      * deleteAllRecordsOnPlayListTable() function is used to delete all records from the database
-     * play list table. It returns the number of deleted records.
+     * play list table. It returns the number of deleted records. It just calls another function
+     * in another class that actually access the database tables to complete the delete action.
      *
      * @return type int
      */
@@ -235,7 +290,8 @@ public class ElModelo {
 
     /**
      * deleteAllRecordsOnFullListTable() function is used to delete all records from the database
-     * full list table. It returns the number of deleted records.
+     * full list table. It returns the number of deleted records. It just calls another function
+     * in another class that actually access the database tables to complete the delete action.
      *
      * @return type int
      */
@@ -258,15 +314,39 @@ public class ElModelo {
 
 
     /**
-     * getArrayListOfFiles() public function is used to send the list of mp3 files to
-     * another class of this project. It returns the variable holding the list of mp3
-     * files. It returns the variable even if it is null;
+     * deleteAllRecordsOnSingerListTable() function is used to delete all records from the database
+     * singer list table. It returns the number of deleted records.  It just calls another function
+     * in another class that actually access the database tables to complete the delete action.
+     *
+     * @return type int
+     */
+    public int deleteAllRecordsOnSingerListTable(){
+                                        //Variable to hold the number of deleted records
+        int delRecordResult;
+                                        //Instantiating DBAccess to actually access the local DB
+        dbAccess = new DBAccess(context);
+                                        //Deleting all records from database singer list table
+        delRecordResult = dbAccess.deleteAllRowsFromSingerListTable();
+        if (delRecordResult <= 0){
+            l("Deleted records number with Function deleteAllRowsFromSingerListTable()" + delRecordResult);
+        }
+                                        //Returning number of deleted records from full list table
+        return delRecordResult;
+
+    }   //End of deleteAllRecordsOnFullListTable() function
+
+
+
+
+    /**
+     * getArrayListOfFiles() public function is used to send the list of mp3 files to another
+     * class of this project. It returns an ArrayList that holds the list of mp3 files. It returns
+     * the variable even if  the ArrayList size is zero or it is null;
      *
      * @return type ArrayList
      */
     public ArrayList<String> getArrayListOfFiles(){
 
-        File file = null;
         getAllMP3FilesFromSDCard(null, 1);
 
         return arrListFiles;
@@ -289,7 +369,8 @@ public class ElModelo {
                                         //Checking if it is the first function call
         if(file == null && level <= 1){
             l("BaseDirectorio:  " + Environment.getExternalStorageDirectory().getParentFile());
-            file = new File("/storage/3061-6433");//Environment.getExternalStorageDirectory();//.getParentFile();
+            file = new File("/storage/emulated/0");
+            //file = new File("/storage/3061-6433");//Environment.getExternalStorageDirectory();//.getParentFile();
             getAllMP3FilesFromSDCard(file, ++level);
         }
         else{
@@ -323,9 +404,9 @@ public class ElModelo {
 
 
     /**
-     * isFileMP3() function is used to check if the file name it receives as a parameter
-     * is an mp3 file or a file of any other type. It returns true if file name is an
-     * mp3 file, false otherwise.
+     * isFileMP3() function is used to check if the file name it receives as a parameter is an MP3
+     * file or a file of any other type. It returns true if file name is an MP3 file, false
+     * otherwise.
      *
      * @param pathFile type String
      * @return type boolean
@@ -343,28 +424,59 @@ public class ElModelo {
 
 
 
+    /**
+     * isTableEmpty(String) function is used to check if a database table, whose name it receives
+     * as a parameter, is empty.  It returns true if table is empty false otherwise.
+     *
+     * @param strTableName type String
+     * @return type boolean
+     */
+    public boolean isTableEmpty(String strTableName) {
+                                        //Getting access to the local database
+        DBAccess dbAccess = new DBAccess(context);
+                                        //Calling another function that actually access the DB
+        boolean blIsTbEmpty = dbAccess.isTableEmpty(strTableName);
+                                        //Closing the database
+        dbAccess.close();
 
+        return blIsTbEmpty;
+
+    }   //End of isTableEmpty() function
 
 
 
 
     /**
-     * getArrayListOfFilesInfo() function is not used in this project, yet.
+     * getSingerNames(String) function is used to find all the songs that are sang by the singer
+     * whose name this function receives as a parameter. The search is done on the data that is
+     * in the database full list table.
+     *
+     * @param singerNombre type String
+     * @return type ArrayList
      */
-    public void getArrayListOfFilesInfo(){
-        if(arrListFiles == null) {
-            l("Array List of MP3 files is null");
-        }
-        else if (arrListFiles.size() <= 0) {
-            l("Array list of mp3 files is empty.");
-        }
-        else {
-            for (String strFileName : arrListFiles){
-                l("MP3 file name: " + strFileName);
+    public ArrayList<String> getSingerNames(String singerNombre) {
+                                        //ArrayList to hold the MP3 music file sang by the singer
+        ArrayList<String> arrayListPLayList = new ArrayList<>();
+                                        //Getting access to local database
+        DBAccess dbAccess = new DBAccess(context);
+                                        //Retrieving MP3 record info from database table
+        Cursor cursor = dbAccess.getAllMP3FilePathsFromDBFullListTable();
+        int index = cursor.getColumnIndex(DBAccessHelper.TABLE_FULL_LIST);
+                                        //Traversing cursor searching MP3 file with singer name
+                                        //equal to the singerNombre parameter
+        while (cursor.moveToNext()) {
+            String str = cursor.getString(0);
+                                        //Comparing singer names
+            if (str.toLowerCase().contains(singerNombre)) {
+                arrayListPLayList.add(str);
             }
         }
+                                        //Closing local DB
+        dbAccess.close();
+                                        //Returning all singer names gotten from local Db
+        return arrayListPLayList;
 
-    }   //End of getArrayListOfFilesInfo() function
+    }   //End of getSingerNames function
 
 
 

@@ -1,8 +1,13 @@
 
-***************************************************************************
 En la mainactivity clase se necesita ver como detener-stop la cancion que se 
 esta tocando si con el update en la music library se delete la cancion que 
 se esta tocando en ese momento.
+
+
+En la fecha de 6/29/2018
+la ultima version solo la he checado en el emulador pero no en el celular
+real. Mas tarde lo voy a cargar al celular.
+En el emulador no se ha crasheado. hasta ahora.
 
 
 ***************************************************************************
@@ -15,20 +20,24 @@ clase y hacerlo solamente a traves de la clase ElModelo.
 ListaCompletaFrgmTab checar si el muxlistviewadapter se puede hacer local para 
 la funcion donde se usa.
 
-***************************************************************************
 
+**************************************************************************
+algunas cantantes aparecen mas de una vez parte es porque tienen acentos.
 
-EN ESTA FECHA DE 6/18/2018 LA APP MUXICO TRABAJA SIN CRASHEARSE, AUNQUE TODAS LA PRUEBAS
-SE HAN HECHO EN EL EMULADOR.
-FALTA ACCEDER LA SD CARD GET TODOS MP3 FILES Y INSERTARLOS EN LA DATABASE.
-CREO QUE TODO ESO SE TIENE QUE HACER EN EL BUTTON DE UPDATE DEL FRAGMETO 
-LISTACOMPLETAFRGMTAB CLASS
+****************************************************************************
 
-******************************************************************************
+cuando se carga por primera vez la app into el divice, el fragmento de cantantes
+carga la lista de contantes porque agarra la lista desde el sdcard pero como
+la table full list esta vacia cuando se hace click en un artista no carga nada
+porque la table full lista esta vacia.
 
-falta ver como parar la cancion que se esta tocando cuando se borra desde la library
+decidir si llenarla desde este fragmento o dar un aviso para que la cargen solo
+desde lel fragmento de full list.
 
-&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+********************************************************************************
 
-cuando la app esta en la libreria y se hace click al button back se creasea/
-
+falta ver porque la mainactivity listview no carga la data from the play list
+table cuando hay un update originado en el fragmento de los singers. esto sucede
+cuando se hace un update y se va tab de play list y luego a la mainactivity. THis
+list view no hace el update hasta que se va al fragmetno de play list y se hace
+click al boton de update despues de eso funciona normal.

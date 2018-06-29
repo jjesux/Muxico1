@@ -9,10 +9,12 @@
         android:id="@+id/txtvwAllFiles"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:padding="5dp"
-        android:layout_marginLeft="5dp"
-        android:text="All mp3 Files in this device"
+        android:layout_marginStart="5dp"
+        android:text="@string/full_list_name"
+        android:textSize="18sp"
+        android:textColor="#0000FF"
         />
 
 
@@ -22,7 +24,7 @@
         android:layout_height="wrap_content"
         android:weightSum="3"
         android:layout_below="@id/txtvwAllFiles"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:orientation="horizontal"
         android:background="@drawable/border"
         android:layout_margin="5dp">
@@ -32,7 +34,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Play All Songs"
+            android:text="@string/full_list_play_all"
             style="@style/nikoTextSize"
             android:padding="5dp"
             android:background="@drawable/button_corner"/>
@@ -43,7 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Add to Playlist"
+            android:text="@string/full_list_add"
             style="@style/nikoUnEnableText"
             android:padding="5dp"
             android:background="@drawable/button_corner"
@@ -55,7 +57,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Update DB List"
+            android:text="@string/full_list_add"
             style="@style/nikoTextSize"
             android:padding="5dp"
             android:background="@drawable/button_corner"
@@ -68,7 +70,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/lnrlayoutAllmp3"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
         android:orientation="vertical"
         android:layout_margin="5dp"
         android:background="@drawable/border">
@@ -76,7 +79,7 @@
         <ListView
             android:id="@android:id/list"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:background="#0A0A0A"
             android:choiceMode="singleChoice">

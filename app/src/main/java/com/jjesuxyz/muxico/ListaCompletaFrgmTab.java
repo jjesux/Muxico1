@@ -25,11 +25,13 @@ import java.util.ArrayList;
 
 
 /**
- * ListaCompletaFrgmTab class is used to manage the UI fragment to let user manage the music
- * library play list and full list tables. It shows a ListView to show data to user, it shows
- * buttons to let user manage that data. User can add one record at time to the play list table.
- * It also let user to update local ListView data with data from the full list table. It allows
- * user to go back to the main UI app.
+ * ListaCompletaFrgmTab class is used to manage the UI fragment to let user manage the database
+ * music library play list and full list tables. It shows a ListView to show data to user, it also
+ * shows a set of buttons to let user manage that data. User can update the ListView data from the
+ * SD Card when it is needed. All this new data is inserted into the database full list table. So
+ * the data/rows that the ListView shows is retrieved from the database table. After that the user
+ * can add one record at time to the play list table. This fragmetn UI allows user to go back to
+ * the main UI app with the clicking of another button.
  *
  * Created by jjesu on 6/8/2018.
  */
@@ -177,6 +179,7 @@ public class ListaCompletaFrgmTab extends ListFragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
                                         //Creating object to access the local database
         ElModelo elModelo = new ElModelo(getContext());
 
@@ -197,7 +200,8 @@ public class ListaCompletaFrgmTab extends ListFragment
 
     /**
      * onItemClick(AdapterView, View, int, long) callback function is used to detect when a
-     * ListView row is clicked or selected.
+     * ListView row is clicked or selected. It high light the clicked rows with different color
+     * so the user cna see what rows have been selected.
      *
      * @param parent type AdapterVi
      * @param view type View
@@ -212,7 +216,6 @@ public class ListaCompletaFrgmTab extends ListFragment
         btnAddSongToPlaylist.setEnabled(true);
         btnAddSongToPlaylist.setTextColor(Color.rgb(0, 0, 255));
                                         //Updating data on ArrayList holding all MP3 files
-        l("Posicion:  " + position);
        arrayListFilePathsToPlayListTb.add(arrayListFilePathsFulllistTable.get(position));
                                         //Highlighting last row selected
         if(vwLastRowSelected != null){

@@ -5,43 +5,45 @@
     android:background="#000000">
 
     <TextView
-        android:id="@+id/txtvwAlbum"
+        android:id="@+id/txtvwSingerId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:padding="10dp"
-        android:layout_marginLeft="5dp"
-        android:text="List of ALBUMS in this device...."
+        android:layout_alignParentStart="true"
+        android:padding="5dp"
+        android:layout_marginStart="5dp"
+        android:text="@string/singer_list_name"
+        android:textColor="#0000FF"
+        android:textSize="18sp"
         />
 
     <LinearLayout
-        android:id="@+id/lnrlayoutAlbum"
+        android:id="@+id/lnrlayoutSingerId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="3"
-        android:layout_below="@id/txtvwAlbum"
-        android:layout_alignParentLeft="true"
+        android:layout_below="@id/txtvwSingerId"
+        android:layout_alignParentStart="true"
         android:orientation="horizontal"
         android:layout_margin="5dp"
         android:background="@drawable/border">
 
         <Button
-            android:id="@+id/btnPlayAllAlbum"
+            android:id="@+id/btnPlayAllSingerId"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Play All "
+            android:text="@string/singer_list_play_all"
             style="@style/nikoTextSize"
             android:padding="5dp"
             android:background="@drawable/button_corner"
             android:enabled="true"/>
 
         <Button
-            android:id="@+id/btnAddAlbum"
+            android:id="@+id/btnAddSingerId"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Add Album"
+            android:text="@string/singer_list_add"
             style="@style/nikoUnEnableText"
             android:padding="5dp"
             android:background="@drawable/button_corner"
@@ -50,24 +52,25 @@
         <!--android:textColor="#000055"-->
 
         <Button
-            android:id="@+id/btnDeleteAlbum"
+            android:id="@+id/btnUpdateSingerId"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Del Album"
+            android:text="@string/singer_list_update"
             style="@style/nikoUnEnableText"
             android:padding="5dp"
             android:background="@drawable/button_corner"
-            android:enabled="false"/>
+            android:enabled="true"/>
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/lnrlayoutAlbumLV"
+        android:id="@+id/lnrlayoutSingerLVId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/lnrlayoutAlbum"
-        android:layout_alignParentLeft="true"
+        android:layout_below="@id/lnrlayoutSingerId"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
         android:orientation="vertical"
         android:layout_margin="5dp"
         android:background="@drawable/border">
@@ -75,14 +78,11 @@
         <ListView
             android:id="@android:id/list"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:background="#0A0A0A">
         </ListView>
 
     </LinearLayout>
 
-
-
 </RelativeLayout>
-    <!-- #9FA8DA-->

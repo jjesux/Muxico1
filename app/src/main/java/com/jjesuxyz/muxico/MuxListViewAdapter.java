@@ -14,29 +14,33 @@ import java.util.ArrayList;
 
 
 /**
- * MuxListViewAdapter class
+ * MuxListViewAdapter class is used by the ListView widget to define the layout of each row
+ * in the ListView. In its constructor this class receive as parameter a reference to the
+ * main UI and to the activities hosting the fragments that also uses ListView widgets to
+ * display data to the user. It also receives an ArrayList the contains all the MP3 file
+ * info that will be displayed in the ListView.
  *
  * Created by jjesu on 6/6/2018.
  */
 
 public class MuxListViewAdapter extends BaseAdapter {
-    Activity activity;              //Pointer to the main class of the project
+    private Activity activity;          //Pointer to the main class of the project
+                                        //ArrayList holding MP3 file path info
+    private ArrayList<String> listMP3RowNumber;
+    private ArrayList<String> listMP3FilePath;
+    //private String strExternalStorage;
+                                        //TextView used to set/change the row text
+    private TextView txtvwRowNumber;
+    private TextView txtvwMP3FilePath;
 
-    ArrayList<String> listMP3RowNumber;
-    ArrayList<String> listMP3FilePath;
-    private String strExternalStorage;
-
-    TextView txtvwRowNumber;
-    TextView txtvwMP3FilePath;
-
-    LayoutInflater inflater;
-
+    private LayoutInflater inflater;
+                                        //Constant var used only for debugging
     private final String t = "NIKO";
 
 
 
     /**
-     * NKListViewAdapter() constructor of this class. This is the only constructor that
+     * MuxListViewAdapter() constructor of this class. This is the only constructor that
      * this class uses. It receives the list of mp3 file paths that are in the device
      * sdcard. It also receives the pointer to the main class managing the window user
      * interface. It calls another function to fill another ArrayList holding the numbers
@@ -48,12 +52,14 @@ public class MuxListViewAdapter extends BaseAdapter {
     public MuxListViewAdapter(Activity activity, ArrayList<String> mp3FilePath){
         super();
         this.activity = activity;
-        strExternalStorage = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
-        listMP3FilePath = new ArrayList<String>();
+        //strExternalStorage = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
+        listMP3FilePath = new ArrayList<>();
         listMP3FilePath.addAll(mp3FilePath);
         inflater = activity.getLayoutInflater();
         createHashMap();
-    }   //End of NKListViewAdapter() function
+
+    }   //End of MuxListViewAdapter() function
+
 
 
 
@@ -68,19 +74,20 @@ public class MuxListViewAdapter extends BaseAdapter {
 
 
 
+
     /**
      * createHashMap() function is used to fill an ArrayList of number, 0->number of mp3
      * files in the device. This list of numbers is used to customize each row in the
      * ListView since each row contains one number and the mp3 file path string.
      *
-     * @return type void
      */
     public void createHashMap(){
-        listMP3RowNumber = new ArrayList<String>();
+        listMP3RowNumber = new ArrayList<>();
         for(Integer i = 0; i < listMP3FilePath.size(); i++){
             listMP3RowNumber.add(i.toString());
         }
     }   //End of createHashMap() function
+
 
 
 
@@ -94,6 +101,7 @@ public class MuxListViewAdapter extends BaseAdapter {
     public int getCount() {
         return listMP3FilePath.size();
     }   //End of getCount() function
+
 
 
 
@@ -111,6 +119,7 @@ public class MuxListViewAdapter extends BaseAdapter {
 
 
 
+
     /**
      * getItemId() function is not used by the programmer coding this project.
      *
@@ -121,6 +130,7 @@ public class MuxListViewAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return 0;
     }   //End of getItemId() function
+
 
 
 
@@ -143,15 +153,18 @@ public class MuxListViewAdapter extends BaseAdapter {
         if(convertView == null) {
                                         //Getting the layout file used in each row
                                         //Por debugging: inflater = activity.getLayoutInflater();
-            convertView = inflater.inflate(R.layout.row_layout, null);
+            convertView = inflater.inflate(R.layout.row_layout, parent, false);
         }
                                         //Getting actual TextViews used in each row
-        txtvwRowNumber = (TextView) convertView.findViewById(R.id.txtvwRowNumber);
-        txtvwMP3FilePath = (TextView) convertView.findViewById(R.id.txtvwMP3FilePath);
+        txtvwRowNumber = convertView.findViewById(R.id.txtvwRowNumber);
+        txtvwMP3FilePath = convertView.findViewById(R.id.txtvwMP3FilePath);
                                         //Setting each row text
         txtvwRowNumber.setText(listMP3RowNumber.get(position ) + "-> ");
+                                        //Getting the song name from the file path
+        String[] str = listMP3FilePath.get(position).split("/");
+        String strTmp = str[str.length -1];
                                         //Removing '/storage/sdcard0' from mp3 file absolute path
-        txtvwMP3FilePath.setText(listMP3FilePath.get(position).replaceFirst(strExternalStorage, ""));
+        txtvwMP3FilePath.setText(strTmp);
                                         //Setting adjacent row background color
         if((position % 2) == 0){
             int miOtroAzul = Color.parseColor("#010445");
@@ -164,6 +177,7 @@ public class MuxListViewAdapter extends BaseAdapter {
 
         return convertView;
     }   //End of getView() function
+
 
 
 

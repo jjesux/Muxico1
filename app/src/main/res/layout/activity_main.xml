@@ -6,7 +6,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="@color/primary_dark_material_dark"
+    android:background="#000000"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -21,7 +21,10 @@
             android:text="@string/txtvw_song"
             style="@style/nikoTextSize"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginStart="10dp"/>
 
         <TextView
             android:id="@+id/txtvwPlayingSongNameId"
@@ -29,7 +32,9 @@
             style="@style/nikoTextSize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginStart="10dp"/>
 
     </LinearLayout>
 
@@ -52,7 +57,7 @@
 
         <Button
             android:id="@+id/btnStopId"
-            android:layout_width="48dp"
+            android:layout_width="50dp"
             android:layout_height="48dp"
             android:background="@drawable/new_btn_detener"/>
 
@@ -63,9 +68,9 @@
 
         <Button
             android:id="@+id/btnPreviousId"
-            android:layout_width="48dp"
+            android:layout_width="50dp"
             android:layout_height="48dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:background="@drawable/new_btn_previa"/>
 
         <View
@@ -77,7 +82,7 @@
             android:id="@+id/btnPlayId"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:background="@drawable/new_btn_tocar"/>
 
         <View
@@ -89,7 +94,7 @@
             android:id="@+id/btnNextId"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:background="@drawable/new_btn_next"/>
 
         <View
@@ -101,7 +106,7 @@
             android:id="@+id/btnPauseId"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:background="@drawable/new_btn_pausa" />
 
         <View
@@ -113,7 +118,7 @@
             android:id="@+id/btnLoopId"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:background="@drawable/new_btn_loop"
             android:enabled="true"/>
 
@@ -130,8 +135,9 @@
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/vwCuatroId"
+        android:layout_above="@+id/vwSieteId"
         android:layout_marginTop="4dp"
         android:padding="3dp"
         android:background="@drawable/border"
@@ -143,7 +149,7 @@
         android:layout_width="match_parent"
         android:layout_height="2dip"
         android:layout_marginTop="3dp"
-        android:layout_below="@android:id/list"
+        android:layout_above="@+id/rltveLTxtTimeId"
         android:background="#0000FF" />
 
     <RelativeLayout
@@ -151,7 +157,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
-        android:layout_below="@id/vwSieteId"
+        android:layout_above="@+id/vwCincoId"
         android:background="@drawable/border">
 
         <SeekBar
@@ -168,9 +174,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/seekBId"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="1dp"
-            android:text="min:sec"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="1dp"
+            android:text="@string/ma_prog_min"
             style="@style/nikoTextSize"/>
 
         <TextView
@@ -178,9 +184,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/seekBId"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="1dp"
-            android:text="min:sec"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="1dp"
+            android:text="@string/ma_prog_max"
             style="@style/nikoTextSize"/>
 
     </RelativeLayout>
@@ -190,7 +196,7 @@
         android:layout_width="match_parent"
         android:layout_height="2dip"
         android:layout_marginTop="4dp"
-        android:layout_below="@id/rltveLTxtTimeId"
+        android:layout_above="@+id/lnrLVolId"
         android:background="#0000FF" />
 
     <LinearLayout
@@ -198,7 +204,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="3"
-        android:layout_below="@id/vwCincoId"
+        android:layout_above="@+id/vwSeisId"
         android:layout_marginTop="3dp"
         android:orientation="horizontal"
         android:background="@drawable/border">
@@ -208,12 +214,10 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:layout_below="@id/lnrLVolId"
-            android:layout_alignParentLeft="true"
             android:background="@drawable/button_mw_corner"
-            android:text="Radio"
+            android:text="@string/ma_prog_radio"
             android:textColor="#00FF00"
-            android:textSize="18dp"/>
+            android:textSize="18sp"/>
 
 
         <Button
@@ -221,12 +225,9 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:layout_below="@id/lnrLVolId"
-            android:layout_toRightOf="@id/btnRadioId"
-            android:layout_marginLeft="0dp"
-            android:text="Library"
+            android:text="@string/ma_prog_lib"
             android:textColor="#00FF00"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:background="@drawable/button_mw_corner"/>
 
 
@@ -235,12 +236,10 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
-            android:layout_below="@id/lnrLVolId"
-            android:layout_alignParentRight="true"
             android:background ="@drawable/equaloff"
-            android:text="OFF"
+            android:text="@string/ma_prog_off"
             android:textColor="#00FF00"
-            android:textSize="18dp"/>
+            android:textSize="18sp"/>
 
     </LinearLayout>
 
@@ -248,8 +247,9 @@
         android:id="@+id/vwSeisId"
         android:layout_width="match_parent"
         android:layout_height="2dip"
-        android:layout_below="@id/lnrLVolId"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
         android:background="#0000FF" />
 
 </RelativeLayout>
